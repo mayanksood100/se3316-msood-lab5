@@ -23,7 +23,7 @@ next();
   });
   
 
-
+//Setting up route for /api/courses
 router.get('/courses', (req,res)=>{
     res.send(data);
 });
