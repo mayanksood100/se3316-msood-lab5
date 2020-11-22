@@ -1,7 +1,7 @@
 import { CoursesComponent } from './courses.component';
 import { Courses } from './../Courses';
 import { PipeTransform, Pipe } from '@angular/core';
-import { style } from '@angular/animations';
+
 
 @Pipe({
     name:'courseComponentFilter'
@@ -10,6 +10,10 @@ import { style } from '@angular/animations';
 export class CourseComponentFilterPipe implements PipeTransform{
     transform(courses:Courses[], courseComponent:string): Courses[]{
         if(!courses || !courseComponent){
+            return courses;
+        }
+
+        if(courseComponent=="ALL"){
             return courses;
         }
         

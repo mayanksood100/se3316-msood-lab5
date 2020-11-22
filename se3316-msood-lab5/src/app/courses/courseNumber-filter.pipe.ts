@@ -10,6 +10,6 @@ export class CourseNumberFilterPipe implements PipeTransform{
         if(!courses || !courseNumber){
             return courses;
         }
-        return courses.filter(course=> course.catalog_nbr === courseNumber)
+        return courses.filter(course=> course.catalog_nbr.toString().toUpperCase() == courseNumber.toString().toUpperCase())
     }
 }
