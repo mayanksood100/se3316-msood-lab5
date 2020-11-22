@@ -4,6 +4,8 @@
     <input type="text" id="subjectSearch" [(ngModel)]="subject" placeholder="Search By Subject" name="subjectSearch"><br><br>
     <label for="courseNumberSearch">Search by Course Number:</label>
     <input type="text" id="courseNumberSearch" [(ngModel)]="courseNumber" placeholder="Search By CourseNumber" name="courseNumberSearch"><br><br>
+    <label for="keywordSearch">Search by Keyword:</label>
+    <input type="text" id="keywordSearch"  placeholder="Search By Keyword" name="keywordSearch" [(ngModel)]="keyword"><br><br>
     <label for="courseComponent" id="componentLabel">Search by Course Component:</label>
     <select placeholder="Select Component" name="courseComponent" id="courseComponent" [(ngModel)]="courseComponent">
         <option value="ALL">ALL</option>
@@ -11,6 +13,7 @@
         <option value="TUT">Tutorial</option>
         <option value="LAB">Laborotory</option>
     </select>
+   
 </div>
 <hr>
 
@@ -20,7 +23,7 @@
 </div>
 
 
-<div *ngFor="let course of courses | subjectFilter:subject | courseNumberFilter:courseNumber | courseComponentFilter: courseComponent"  (click)="onSelect(course)" class="courses" [ngStyle]="{'color':colorComponent(course.course_info[0].ssr_component)}">
+<div *ngFor="let course of courses | subjectFilter:subject | courseNumberFilter:courseNumber | courseComponentFilter: courseComponent | keywordFilter:{catalog_nbr:keyword, className:keyword}"  (click)="onSelect(course)" class="courses" [ngStyle]="{'color':colorComponent(course.course_info[0].ssr_component)}">
     <h3>{{course.subject}} {{course.catalog_nbr}} - {{course.className}}</h3>
     <p><b>Description:</b>{{course.catalog_description}}</p>
 

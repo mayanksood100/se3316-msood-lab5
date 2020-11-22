@@ -1,3 +1,4 @@
+import { KeywordFilterPipe } from './courses/keyword-filter.pipe';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -17,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     SubjectFilterPipe,
     CourseNumberFilterPipe,
     CourseComponentFilterPipe,
+    KeywordFilterPipe
   ],
   imports: [
     BrowserModule,

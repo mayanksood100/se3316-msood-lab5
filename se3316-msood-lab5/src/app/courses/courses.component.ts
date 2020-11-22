@@ -15,6 +15,7 @@ export class CoursesComponent implements OnInit {
   subject: string;
   courseNumber:string;
   courseComponent: string;
+  keyword:string;
 
   constructor(private courseService: CoursesService) { }
 

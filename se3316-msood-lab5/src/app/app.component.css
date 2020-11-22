@@ -9,3 +9,19 @@ div{
     background-color: #D1ECF1;
     padding: 10px;
 }
+
+#buttonDiv{
+    margin: 0 auto;
+}
+
+button{
+ 
+  background-color: #4CAF50; 
+  color: white;
+  padding: 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin-left: 5px;
+}
