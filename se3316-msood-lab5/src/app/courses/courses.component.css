@@ -58,3 +58,35 @@ td {
       text-decoration: underline;
       color: #f7fa64;
   }
+
+  #searchDiv{
+      margin: 0 auto;
+      text-align: center;
+  }
+
+  label{
+      font-size: 20px;
+      font-weight: 600;
+  }
+
+  #componentLabel{
+      margin-right: 140px;
+  }
+
+  #subHeading{
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 30px;
+      text-decoration: underline;
+  }
+
+  #subjectSearch{
+      margin-left: 180px;
+  }
+
+  #courseNumberSearch{
+      margin-left: 110px;
+  }
+
+  #courseComponent{
+      margin-left: 10px;
+  }

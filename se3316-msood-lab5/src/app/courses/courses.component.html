@@ -1,12 +1,17 @@
-<h2>Western Univeristy Courses </h2>
-
-<input type="text" id="subjectSearch" [(ngModel)]="subject" placeholder="Search By Subject">
-<input type="text" id="courseNumberSearch" [(ngModel)]="courseNumber" placeholder="Search By CourseNumber">
-<select placeholder="Select Component" name="courseComponent" id="courseComponent" [(ngModel)]="courseComponent">
-    <option value="LEC">LEC</option>
-    <option value="TUT">TUT</option>
-    <option value="LAB">LAB</option>
-</select>
+<div id="searchDiv">
+    <h2 id="subHeading">Search Courses</h2>
+    <label for="subjectSearch">Search by Subject:</label>
+    <input type="text" id="subjectSearch" [(ngModel)]="subject" placeholder="Search By Subject" name="subjectSearch"><br><br>
+    <label for="courseNumberSearch">Search by Course Number:</label>
+    <input type="text" id="courseNumberSearch" [(ngModel)]="courseNumber" placeholder="Search By CourseNumber" name="courseNumberSearch"><br><br>
+    <label for="courseComponent" id="componentLabel">Search by Course Component:</label>
+    <select placeholder="Select Component" name="courseComponent" id="courseComponent" [(ngModel)]="courseComponent">
+        <option value="LEC">Lecture</option>
+        <option value="TUT">Tutorial</option>
+        <option value="LAB">Laborotory</option>
+    </select>
+</div>
+<hr>
 
 <div *ngIf="selectedCourse" class="selectedDiv">
     <h2 id="selectedHeading">{{selectedCourse.subject}} {{selectedCourse.catalog_nbr}} - {{selectedCourse.className}}</h2>

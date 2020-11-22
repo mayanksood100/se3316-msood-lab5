@@ -1,0 +1,11 @@
+#mainTitle{
+    text-align: center;
+    text-decoration: underline;
+    color: blueviolet;
+}
+
+div{
+    border: 1.5px solid black;
+    background-color: #D1ECF1;
+    padding: 10px;
+}
