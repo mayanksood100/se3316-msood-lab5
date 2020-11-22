@@ -10,6 +10,7 @@ import { CourseNumberFilterPipe } from './courses/courseNumber-filter.pipe';
 import { CourseComponentFilterPipe } from './courses/courseComponent-filter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { HttpClientModule } from '@angular/common/http';
     SubjectFilterPipe,
     CourseNumberFilterPipe,
     CourseComponentFilterPipe,
-    KeywordFilterPipe
+    KeywordFilterPipe,
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,

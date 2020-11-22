@@ -13,6 +13,7 @@ const LocalStrategy = require('passport-local');
 const User = require("./models/users.js");
 const passportLocalMongoose = require('passport-local-mongoose');
 mongoose.connect("mongodb://localhost/authenticationdb");
+mongoose.Promise = global.Promise;
 const port = 3000;
 
 fs.readFile("./Lab3-timetable-data.json", "utf-8", (err, jsonString) => {
