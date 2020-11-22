@@ -14,6 +14,10 @@ const User = require("./models/users.js");
 const passportLocalMongoose = require('passport-local-mongoose');
 mongoose.connect("mongodb://localhost/authenticationdb");
 mongoose.Promise = global.Promise;
+const cors = require('cors');
+app.use(cors());
+var randomCode = require("randomstring");
+const bcrypt = require('bcrypt');
 const port = 3000;
 
 fs.readFile("./Lab3-timetable-data.json", "utf-8", (err, jsonString) => {
@@ -47,6 +51,29 @@ router.get('/courses', (req,res)=>{
     res.send(data);
 });
 
+router.post('/register', (req, res, next)=>{
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+    bcrypt.hash(req.body.Password, 10, function(err, hash) {
+        let Users = new User(
+            {
+                UserName: req.body.UserName,
+                Email: req.body.Email,
+                Password: hash,
+                Active: false,
+                Deactive: true,
+                authenticationCode: randomCode.generate(5),
+                Admin: false,
+            }
+        );
+            Users.save(function (err, Users) {
+                if (err) {
+                    return next(err);
+                }
+                res.json({message: 'User Added.', Users});
+            })
+      });
+
+});
 
 
 
