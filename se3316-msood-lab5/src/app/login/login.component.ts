@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Users } from '../Users';
 
@@ -10,7 +11,7 @@ import { Users } from '../Users';
 })
 export class LoginComponent implements OnInit {
   private SERVER_URL = environment.SERVER_URL;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router:Router) { }
   
   ngOnInit(): void {
   }
@@ -28,7 +29,6 @@ export class LoginComponent implements OnInit {
     console.log(form.value.password);
 
     this.loginUser(newFormData).subscribe(data=>console.log(data));
-    
     form.reset();
   }
 

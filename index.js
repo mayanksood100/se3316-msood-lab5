@@ -18,6 +18,7 @@ const cors = require('cors');
 app.use(cors());
 var randomCode = require("randomstring");
 const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
 const port = 3000;
 
 fs.readFile("./Lab3-timetable-data.json", "utf-8", (err, jsonString) => {
@@ -69,6 +70,7 @@ router.post('/register', (req, res, next)=>{
                 if (err) {
                     return next(err);
                 }
+                sendConfirm(req.body.email);
                 res.json({message: 'User Added.', users});
             })
         
@@ -95,6 +97,37 @@ router.post('/login', (req,res,next)=>{
         }
     })
 });
+
+let transporter = nodemailer.createTransport({
+    service: 'gmail', 
+    auth: { 
+        user: "sanchitkumar54323@gmail.com", 
+        pass: "mickyrocks" 
+    },
+    tls:{
+        rejectUnauthorized:false
+    } 
+});
+
+function sendConfirm(clientEmail){
+    let mailOptions = { 
+        from: 'sanchitkumar54323@gmail.com', 
+        to: clientEmail, 
+        subject: 'Account Verification', 
+        text: 'Hello, this is a test for a confirmation email.' 
+    };
+    
+    transporter.sendMail(mailOptions, function (err,data) {
+        if (err) 
+        { 
+           console.log("An Error occured", err)
+        }
+       else{
+           console.log('An email has been sent!');
+       }
+      });
+}
+
 
 
 
