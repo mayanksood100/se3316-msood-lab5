@@ -12,7 +12,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require("./models/users.js");
 const passportLocalMongoose = require('passport-local-mongoose');
-mongoose.connect("mongodb://localhost/authenticationdb");
+mongoose.connect("mongodb://localhost/authentication");
 mongoose.Promise = global.Promise;
 const cors = require('cors');
 app.use(cors());
@@ -53,23 +53,23 @@ router.get('/courses', (req,res)=>{
 
 router.post('/register', (req, res, next)=>{
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-    bcrypt.hash(req.body.Password, 10, function(err, hash) {
-        let Users = new User(
+    bcrypt.hash(req.body.password, 10, function(err, hash) {
+        let users = new User(
             {
-                UserName: req.body.UserName,
-                Email: req.body.Email,
-                Password: hash,
-                Active: false,
-                Deactive: true,
+                username: req.body.username,
+                email: req.body.email,
+                password: hash,
+                active: false,
+                deactive: true,
                 authenticationCode: randomCode.generate(5),
-                Admin: false,
+                admin: false,
             }
         );
-            Users.save(function (err, Users) {
+            users.save(function (err, users) {
                 if (err) {
                     return next(err);
                 }
-                res.json({message: 'User Added.', Users});
+                res.json({message: 'User Added.', users});
             })
       });
 

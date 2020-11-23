@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { Users } from '../Users';
 
 @Component({
   selector: 'app-registration',
@@ -18,16 +19,38 @@ export class RegistrationComponent implements OnInit {
   addnewUser(createBody){
     const httpHeaders = new HttpHeaders();
     httpHeaders.append('content-type', 'application/json');
-    return this.http.post<[]>(this.SERVER_URL + '/register', createBody);
+    return this.http.post<Users[]>(this.SERVER_URL + '/register', createBody, {headers:httpHeaders});
   }
 
   submitRegistrationForm(form): void {
 
-  const newFormData = {UserName:form.value.username, Email:form.value.email, Password:form.value.password};
+  const newFormData = {username:form.value.username, email:form.value.email, password:form.value.password};
    console.log(form.value.username);
    console.log(form.value.email);
    console.log(form.value.password);
+
+   if(form.value.password == ""){
+    alert("Please enter a password");
+ }
+
+  else if(form.value.password.length<=6){
+    alert("Please enter a password greater than 6 characters.")
+ }
+
+  if(form.value.username == "" || form.value.username.length==0){
+   alert("Please enter a username");
+ }
+
+ if(form.value.email == ""){
+  alert("Please enter a email address");
+}
+
+   if ((/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(form.value.email)) && (form.value.password!="") && (form.value.password.length>6) && (form.value.username!="")){
   this.addnewUser(newFormData).subscribe(data=>console.log(data));
+   }
+
+  
+
 
   }
 
