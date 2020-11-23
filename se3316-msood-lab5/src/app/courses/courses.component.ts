@@ -45,7 +45,10 @@ export class CoursesComponent implements OnInit {
   }
 
   btnClick(){
-    this.router.navigate(['/register']);
+  this.router.navigate(['/register']);
+}
+  btnClick2(){
+  this.router.navigate(['/login']);
 }
 
   

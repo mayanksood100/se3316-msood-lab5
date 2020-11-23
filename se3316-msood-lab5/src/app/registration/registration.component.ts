@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Users } from '../Users';
 
@@ -49,8 +48,7 @@ export class RegistrationComponent implements OnInit {
   this.addnewUser(newFormData).subscribe(data=>console.log(data));
    }
 
-  
-
+   form.reset();
 
   }
 

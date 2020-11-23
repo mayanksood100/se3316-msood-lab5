@@ -11,6 +11,7 @@ import { CourseComponentFilterPipe } from './courses/courseComponent-filter.pipe
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RegistrationComponent } from './registration/registration.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RegistrationComponent } from './registration/registration.component';
     CourseComponentFilterPipe,
     KeywordFilterPipe,
     RegistrationComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,

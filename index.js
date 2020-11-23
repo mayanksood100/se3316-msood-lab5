@@ -71,8 +71,29 @@ router.post('/register', (req, res, next)=>{
                 }
                 res.json({message: 'User Added.', users});
             })
+        
       });
+});
 
+router.post('/login', (req,res,next)=>{
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
+    const username = req.body.username;
+    const password = req.body.password;
+    User.findOne({ username: username}, function(err, foundUser){
+        if(err){
+            return res.send(err);
+        }
+        if(!foundUser){
+            return res.send("User not found");
+        }
+        else{
+            if(bcrypt.compare(password, foundUser.password))
+                return res.send(foundUser)
+                else{
+                    return res.send('Incorrect password');
+                }
+        }
+    })
 });
 
 
