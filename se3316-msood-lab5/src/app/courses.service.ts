@@ -13,7 +13,7 @@ export class CoursesService {
   constructor(private http: HttpClient) {}
 
   getAllCourses(){
-    return this.http.get<Courses[]>(this.SERVER_URL + '/courses');
+    return this.http.get<Courses[]>(this.SERVER_URL + '/open/courses');
   }
   
 }
