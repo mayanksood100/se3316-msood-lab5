@@ -19,9 +19,10 @@ app.use(cors());
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const passportLocalMongoose = require('passport-local-mongoose');
+const jwt = require('jsonwebtoken');
 const port = 3000;
-
-//============ Defining Models ===================================
+const secret = 'SE3316 Secret Token'
+//================= Defining Models ===================================
 const User = require("./models/users.js");
 const Schedule = require("./models/schedules.js");
 
@@ -53,6 +54,25 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 
+const checkToken = (req, res, next) => {
+    const header = req.headers['authorization'];
+
+    if(typeof header !== 'undefined') {
+        const bearer = header.split(' ');
+        const token = bearer[1];
+
+        req.token = token;
+        next();
+    } else {
+        //If header is undefined return Forbidden (403)
+        res.sendStatus(403)
+    }
+}
+
+
+
+
+
 //============ ROUTES for Unauthenticated Users =================
 
 //Setting up GET route for /api/open/courses
@@ -75,14 +95,19 @@ router.post('/register', (req, res, next)=>{
                 admin: false,
             }
         );
+        if(req.body.username==null || req.body.username=="" || req.body.password==null || req.body.password=="" || req.body.email == null || req.body.email=="")
+        {
+            res.json({success:false,message:'Ensure username, email and password fields are filled out.'});
+        }
+        else{
             users.save(function (err, users) {
                 if (err) {
                     return next(err);
                 }
                 sendConfirm(req.body.email,req.body.username);
-                res.json({message: 'User Added.', users});
+                res.json({success:true, message: 'User Successfuly Registered.'});
             })
-        
+        }
       });
 });
 
@@ -100,8 +125,11 @@ router.post('/login', (req,res,next)=>{
         }
         else{
             let checkPassword = bcrypt.compareSync(password, foundUser.password);
-            if(checkPassword==true)
-                return res.send(foundUser)
+            if(checkPassword==true){
+               let token = jwt.sign({email:email},secret,{expiresIn:'24h'});
+               return res.json({success:true, message:"User Authenticated", token:token})
+            }
+               
                 else{
                     return res.send('Incorrect password. Please try again!');
                 }
@@ -119,7 +147,7 @@ router.get("/secure/schedule", (req, res) => {
       else{
         res.send(JSON.stringify(schedule));
       }
-  }); 
+  }); ``
   
   });
   
@@ -138,7 +166,7 @@ router.get("/secure/schedule", (req, res) => {
   });
   
   //Post request to make a new Schedule and add it to the Database.
-  router.post("/secure/schedule", (req, res, next) => {
+  router.post("/secure/schedule", checkToken, (req, res, next) => {
   
     let subjects_data = [];
     let courseNums_data = [];
@@ -214,8 +242,7 @@ router.get("/secure/schedule", (req, res) => {
         
           }
       });
-    }
-          
+    }     
   });
   
   //Creating a Put request to update the Schedule by its Name.
@@ -324,6 +351,9 @@ function sendConfirm(clientEmail, clientName){
       });
 }
 //===============================================================================//
+
+
+
 
 
 

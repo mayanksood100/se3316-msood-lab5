@@ -10,6 +10,7 @@ import { Users } from '../Users';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  token: any;
   private SERVER_URL = environment.SERVER_URL;
   constructor(private http: HttpClient, private router:Router) { }
   
@@ -45,7 +46,11 @@ export class LoginComponent implements OnInit {
   }
 
   else{
-    this.loginUser(newFormData).subscribe(data=>console.log(data));
+    this.loginUser(newFormData).subscribe(data=>{
+      this.token=data;
+      console.log(this.token.token);
+      
+    });
   }
 
     form.reset();
