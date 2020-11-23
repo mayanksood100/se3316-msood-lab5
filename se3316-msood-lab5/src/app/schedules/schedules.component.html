@@ -1,0 +1,19 @@
+<h2>My Schedules</h2>
+<ul class="schedules">
+  <li *ngFor="let schedule of schedules_fixed">
+      <a routerLink="/schedule-detail/{{schedule.scheduleName}}">
+        <span class="badge">{{schedule.scheduleName}} - {{schedule.subject_schedule.length}} Course(s)</span> 
+      </a>
+    {{schedule.subject_schedule}}
+
+    <div id="deleteButtonDiv">
+      <button class="delete" title="Delete Schedule"
+      (click)="deleteSchedule(schedule.scheduleName)">x</button>
+    </div>
+    <span class="editBadge"><button id="editButton" (click)="editButtonClick(schedule.scheduleName)">Edit Schedule</button></span> 
+  </li>
+  <br><br>
+  <button id="deleteAll" (click)="deleteAll()">Delete All Schedules</button>
+
+</ul>
+

@@ -12,6 +12,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RegistrationComponent } from './registration/registration.component';
 import { LoginComponent } from './login/login.component';
+import { SchedulesComponent } from './schedules/schedules.component';
+import { CreateSchedulesComponent } from './create-schedules/create-schedules.component';
+import { EditScheduleComponent } from './edit-schedule/edit-schedule.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,9 @@ import { LoginComponent } from './login/login.component';
     KeywordFilterPipe,
     RegistrationComponent,
     LoginComponent,
+    SchedulesComponent,
+    CreateSchedulesComponent,
+    EditScheduleComponent,
   ],
   imports: [
     BrowserModule,

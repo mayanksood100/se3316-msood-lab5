@@ -21,7 +21,7 @@ const LocalStrategy = require('passport-local');
 const passportLocalMongoose = require('passport-local-mongoose');
 const port = 3000;
 
-//============ Defining Models =================
+//============ Defining Models ===================================
 const User = require("./models/users.js");
 const Schedule = require("./models/schedules.js");
 
@@ -169,7 +169,7 @@ router.get("/secure/schedule", (req, res) => {
   let onlysubjectsLength = onlysubjects.map(function(word){
       return word.length
      });
-     
+
      function subjectsLength(){
        for(let i=0; i<onlysubjectsLength; i++){
          if(onlysubjectsLength[i]>=8){
