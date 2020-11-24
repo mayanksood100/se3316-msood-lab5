@@ -18,6 +18,11 @@ export class AuthService {
     return this.http.post<Users[]>(this.SERVER_URL + '/login', createBody, this.noAuthHeader)
   }
 
+  
+  getUserProfile() {
+    return this.http.get(this.SERVER_URL + '/secure/user-detail');
+  }
+
   setToken(token:string){
     localStorage.setItem('token',token);
   }
@@ -31,7 +36,7 @@ export class AuthService {
   }
 
   getUserPayload(){
-    let token = localStorage.getItem('token');
+    let token = this.getToken();
     if(token){
       let userPayload = atob(token.split('.')[1]);
       return JSON.parse(userPayload);

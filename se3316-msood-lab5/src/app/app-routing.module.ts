@@ -1,3 +1,4 @@
+import { UserProfileComponent } from './user-detail/user-detail.component';
 import { LoginComponent } from './login/login.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { NgModule } from '@angular/core';
@@ -14,6 +15,7 @@ const routes: Routes = [
 { path: 'courses', component: CoursesComponent},
 {path:'register', component:RegistrationComponent},
 {path:'login', component:LoginComponent},
+{path:'user-detail', component:UserProfileComponent, canActivate:[AuthGuard]},
 { path: 'schedules', component: SchedulesComponent,canActivate:[AuthGuard] },
 {path:'createSchedule', component:CreateSchedulesComponent, canActivate:[AuthGuard]},
 {path:'editSchedule/:name', component: EditScheduleComponent, canActivate:[AuthGuard]},

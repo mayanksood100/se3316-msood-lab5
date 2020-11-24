@@ -4,6 +4,11 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 //Creating a Users Schema and Model
 const UserSchema = new Schema({
+
+    name:{
+        type: String,
+        required:true
+    },
     username: {
         type: String,
         required:true

@@ -10,6 +10,7 @@
     <h1>Sign Up!</h1>
 
     <form #registerForm="ngForm" (submit)="submitRegistrationForm(registerForm)">
+      <input type="text" name="name" id="name" placeholder="Enter Full Name" required ngModel><br><br>
       <input type="text" name="username" id="username" placeholder="Enter Username" required ngModel><br><br>
       <input type="text" name="email" id="email" placeholder="Enter Email Address" required ngModel><br><br>
       <input type="password" name="password" id="password" placeholder="Enter Password" required ngModel><br><br>

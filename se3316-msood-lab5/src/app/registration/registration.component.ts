@@ -23,10 +23,20 @@ export class RegistrationComponent implements OnInit {
 
   submitRegistrationForm(form): void {
 
-  const newFormData = {username:form.value.username, email:form.value.email, password:form.value.password};
+  const newFormData = {name:form.value.name,username:form.value.username, email:form.value.email, password:form.value.password};
+
+  console.log(form.value.name);
    console.log(form.value.username);
    console.log(form.value.email);
    console.log(form.value.password);
+
+   if(form.value.name == ""){
+    alert("Please enter your full name");
+ }
+
+ if(form.value.name.length<=5){
+  alert("Please enter a name greather than 5 characters.");
+}
 
    if(form.value.password == ""){
     alert("Please enter a password");
@@ -36,7 +46,7 @@ export class RegistrationComponent implements OnInit {
     alert("Please enter a password greater than 6 characters.")
  }
 
-  if(form.value.username == "" || form.value.username.length==0){
+  if(form.value.username == "" || form.value.username.length==0 || form.value.username==null){
    alert("Please enter a username");
  }
 

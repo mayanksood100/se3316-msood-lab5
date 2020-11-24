@@ -20,6 +20,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const passportLocalMongoose = require('passport-local-mongoose');
 const jwt = require('jsonwebtoken');
+const _ = require('lodash');
 const port = 3000;
 const secret = 'SE3316 Secret Token'
 //================= Defining Models ===================================
@@ -55,23 +56,24 @@ passport.deserializeUser(User.deserializeUser());
 
 
 const checkToken = (req, res, next) => {
-    const header = req.headers['authorization'];
-
-    if(typeof header !== 'undefined') {
-        const bearer = header.split(' ');
-        const token = bearer[1];
-
-        req.token = token;
-        next();
-    } else {
-        //If header is undefined return Forbidden (403)
-        res.sendStatus(403)
+    let token;
+    if ('authorization' in req.headers)
+        token = req.headers['authorization'].split(' ')[1];
+    if (!token)
+        return res.status(403).send({ auth: false, message: 'No token provided.' });
+    else {
+        jwt.verify(token, secret,
+            (err, decoded) => {
+                if (err)
+                    return res.status(500).send({ auth: false, message: 'Token authentication failed.' });
+                else {
+                    req._id = decoded._id;
+                    next();
+                }
+            }
+        )
     }
 }
-
-
-
-
 
 //============ ROUTES for Unauthenticated Users =================
 
@@ -86,6 +88,7 @@ router.post('/register', (req, res, next)=>{
     bcrypt.hash(req.body.password, 10, function(err, hash) {
         let users = new User(
             {
+                name:req.body.name,
                 username: req.body.username,
                 email: req.body.email,
                 password: hash,
@@ -95,9 +98,9 @@ router.post('/register', (req, res, next)=>{
                 admin: false,
             }
         );
-        if(req.body.username==null || req.body.username=="" || req.body.password==null || req.body.password=="" || req.body.email == null || req.body.email=="")
+        if(req.body.username==null || req.body.username=="" || req.body.password==null || req.body.password=="" || req.body.email == null || req.body.email=="" || req.body.name==null || req.body.name=="")
         {
-            res.json({success:false,message:'Ensure username, email and password fields are filled out.'});
+            res.json({success:false,message:'Ensure name, username, email and password fields are filled out.'});
         }
         else{
             users.save(function (err, users) {
@@ -105,7 +108,7 @@ router.post('/register', (req, res, next)=>{
                     return next(err);
                 }
                
-                sendConfirm(req.body.email,req.body.username);
+                sendConfirm(req.body.email,req.body.name);
                 res.json({success:true, message: 'User Successfuly Registered.'});
             })
         }
@@ -127,7 +130,7 @@ router.post('/login', (req,res,next)=>{
         else{
             let checkPassword = bcrypt.compareSync(password, foundUser.password);
             if(checkPassword==true){
-               let token = jwt.sign({email:email},secret,{expiresIn:'1m'});
+               let token = jwt.sign({email:email},secret,{expiresIn:'5m'});
                return res.json({success:true, message:"User Authenticated", token:token, expiresIn:token.expiresIn})
             }
                 else{
@@ -138,6 +141,20 @@ router.post('/login', (req,res,next)=>{
 });
 
 //===============ROUTES for Authenticated Users===============================//
+
+// router.get('/secure/user-detail', checkToken, (req,res,next)=>{
+//     User.findOne({ _id: req._id},
+//         (err, user) => {
+//             if (!user){
+//                 return res.status(404).json({ status: false, message: 'User record not found.' });
+//             }
+//             else
+//                 return res.status(200).json({ status: true, user : _.pick(user,['name','username']) });
+//         }
+//     );
+// });
+
+
 //Retrieving all Schedules from the Database
 router.get("/secure/schedule", (req, res) => {
     Schedule.find({}, 'scheduleName subject_schedule courseNumber_schedule', function(err, schedule){
