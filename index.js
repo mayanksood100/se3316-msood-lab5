@@ -104,6 +104,7 @@ router.post('/register', (req, res, next)=>{
                 if (err) {
                     return next(err);
                 }
+               
                 sendConfirm(req.body.email,req.body.username);
                 res.json({success:true, message: 'User Successfuly Registered.'});
             })
@@ -126,10 +127,9 @@ router.post('/login', (req,res,next)=>{
         else{
             let checkPassword = bcrypt.compareSync(password, foundUser.password);
             if(checkPassword==true){
-               let token = jwt.sign({email:email},secret,{expiresIn:'24h'});
-               return res.json({success:true, message:"User Authenticated", token:token})
+               let token = jwt.sign({email:email},secret,{expiresIn:'1m'});
+               return res.json({success:true, message:"User Authenticated", token:token, expiresIn:token.expiresIn})
             }
-               
                 else{
                     return res.send('Incorrect password. Please try again!');
                 }
@@ -166,7 +166,7 @@ router.get("/secure/schedule", (req, res) => {
   });
   
   //Post request to make a new Schedule and add it to the Database.
-  router.post("/secure/schedule", checkToken, (req, res, next) => {
+  router.post("/secure/schedule", (req, res, next) => {
   
     let subjects_data = [];
     let courseNums_data = [];

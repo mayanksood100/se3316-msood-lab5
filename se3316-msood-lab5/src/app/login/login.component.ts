@@ -1,8 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { Users } from '../Users';
+import { AuthService } from './../auth.service';
+import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-login',
@@ -11,17 +10,11 @@ import { Users } from '../Users';
 })
 export class LoginComponent implements OnInit {
   token: any;
-  private SERVER_URL = environment.SERVER_URL;
-  constructor(private http: HttpClient, private router:Router) { }
+  constructor(private authService: AuthService, private router:Router) { }
   
   ngOnInit(): void {
   }
 
-  loginUser(createBody){
-    const httpHeaders = new HttpHeaders();
-    httpHeaders.append('content-type', 'application/json');
-    return this.http.post<Users[]>(this.SERVER_URL + '/login', createBody, {headers:httpHeaders});
-  }
 
   submitLoginForm(form):void{
 
@@ -46,10 +39,12 @@ export class LoginComponent implements OnInit {
   }
 
   else{
-    this.loginUser(newFormData).subscribe(data=>{
+    this.authService.loginUser(newFormData).subscribe(data=>{
       this.token=data;
       console.log(this.token.token);
-      
+      this.authService.setToken(data['token']);
+      console.log(this.authService);
+      this.router.navigate(['/login']);
     });
   }
 

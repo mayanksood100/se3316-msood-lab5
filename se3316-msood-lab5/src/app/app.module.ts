@@ -15,6 +15,7 @@ import { LoginComponent } from './login/login.component';
 import { SchedulesComponent } from './schedules/schedules.component';
 import { CreateSchedulesComponent } from './create-schedules/create-schedules.component';
 import { EditScheduleComponent } from './edit-schedule/edit-schedule.component';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,7 @@ import { EditScheduleComponent } from './edit-schedule/edit-schedule.component';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
