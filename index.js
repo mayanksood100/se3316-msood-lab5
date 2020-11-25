@@ -157,7 +157,7 @@ router.post('/login', (req,res,next)=>{
 
 //Retrieving all Schedules from the Database
 router.get("/secure/schedule", (req, res) => {
-    Schedule.find({}, 'scheduleName subject_schedule courseNumber_schedule', function(err, schedule){
+    Schedule.find({}, 'scheduleName scheduleDescription subject_schedule courseNumber_schedule', function(err, schedule){
       if(err) {
         return console.error(err);
       }
@@ -195,11 +195,12 @@ router.get("/secure/schedule", (req, res) => {
     }
   
     let schedule = new Schedule({
+      visibility:req.body.visibility,
       scheduleName:req.body.scheduleName,
+      scheduleDescription:req.body.scheduleDescription,
       subject_schedule: req.body.subject_schedule
     });
-  
-    console.log(req.body.subject_schedule);
+    
     let onlysubjects = [];
     let onlyCourseNumber=[];
     for(let i=0; i<req.body.subject_schedule.length; i++){
@@ -263,7 +264,7 @@ router.get("/secure/schedule", (req, res) => {
   });
   
   //Creating a Put request to update the Schedule by its Name.
-  app.put('/secure/schedule/:sched_name', function(req,res,next){
+  router.put('/secure/schedule/:sched_name', function(req,res,next){
   
     let subjects_data = [];
     let courseNums_data = [];
@@ -322,14 +323,14 @@ router.get("/secure/schedule", (req, res) => {
   });
   
   //Path to delete all Schedules
-  app.delete('/secure/schedule', (req,res,next)=> {
+  router.delete('/secure/schedule', (req,res,next)=> {
     Schedule.deleteMany({}).then(function(schedule){
     res.send(schedule);
       });
    });
   
   //Path to Delete Schedule by a Given Name
-  app.delete('/secure/schedule/:sched_name', (req,res,next)=> {
+  router.delete('/secure/schedule/:sched_name', (req,res,next)=> {
   
       Schedule.findOneAndDelete({scheduleName:req.params.sched_name}).then(function(schedule){
         res.send(schedule);

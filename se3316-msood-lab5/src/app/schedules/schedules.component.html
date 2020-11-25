@@ -5,7 +5,7 @@
         <span class="badge">{{schedule.scheduleName}} - {{schedule.subject_schedule.length}} Course(s)</span> 
       </a>
     {{schedule.subject_schedule}}
-
+    {{schedule.scheduleDescription}}
     <div id="deleteButtonDiv">
       <button class="delete" title="Delete Schedule"
       (click)="deleteSchedule(schedule.scheduleName)">x</button>

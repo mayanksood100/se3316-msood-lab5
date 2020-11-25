@@ -17,7 +17,9 @@ export class CreateSchedulesComponent implements OnInit {
 
   ngOnInit(): void {
     this.scheduleForm = this.fb.group({
+      visibility: [''],
       scheduleName: ['', Validators.required],
+      scheduleDescription: [''],
       subject_schedule: this.fb.array([this.addCoursesFormGroup()])
     })
   }
@@ -35,13 +37,11 @@ export class CreateSchedulesComponent implements OnInit {
   }
 
   submitSchedule(): void {
-    console.log(this.scheduleForm.value.subject_schedule);
+
+    console.log(this.scheduleForm.value.visibility);
     this.scheduleCourses = this.scheduleForm.value.subject_schedule.flatMap((item)=>Object.values(item));
-    console.log(this.scheduleForm.value.subject_schedule);
-    console.log(this.scheduleCourses);
-
-    const newFormData = {scheduleName:this.scheduleForm.value.scheduleName, subject_schedule:this.scheduleCourses};
-
+    const newFormData = {visibility:this.scheduleForm.value.visibility, scheduleName:this.scheduleForm.value.scheduleName, scheduleDescription:this.scheduleForm.value.scheduleDescription, subject_schedule:this.scheduleCourses};
+    console.log(newFormData);
     this.scheduleService.addNewSchedule(newFormData).subscribe(data=>console.log(data));
     this.scheduleForm.reset();
   }

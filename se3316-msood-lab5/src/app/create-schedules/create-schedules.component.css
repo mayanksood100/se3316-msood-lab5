@@ -92,3 +92,18 @@ input[type=text] {
   font-size: larger;
   margin-left: 900px;
 }
+
+#textarea{
+  margin-left: 15px;
+}
+
+.radioVisibility {
+ width: 15px;
+ margin-left: 170px;
+}
+
+
+.radioVisibilityL {
+  display: inline;
+}
+

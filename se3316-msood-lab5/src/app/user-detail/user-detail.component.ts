@@ -12,9 +12,11 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     if(this.authService.isLoggedIn() == false){
-      this.router.navigate(['/login']);
+      this.router.navigateByUrl('/login');
     }
   }
+
+  
 
   onLogout(){
     this.authService.deleteToken();

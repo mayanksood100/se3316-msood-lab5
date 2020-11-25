@@ -20,7 +20,7 @@ export class SchedulesComponent implements OnInit {
   getAllSchedules(){
     this.scheduleService.getAllSchedules().subscribe(scheds => {
       this.schedules = scheds;
-    
+      
       const combineItem = (arr, result = []) => {
         if(arr.length===0) {return result}
         result.push(arr.slice(0, 2).join(' '));
@@ -30,7 +30,8 @@ export class SchedulesComponent implements OnInit {
           ...x,
           subject_schedule: combineItem(x.subject_schedule),
         }));
-        
+        console.log(this.schedules);
+        console.log(this.schedules_fixed);
     });
   }
 
