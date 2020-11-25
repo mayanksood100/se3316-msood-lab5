@@ -17,6 +17,7 @@ export class EditScheduleComponent implements OnInit {
   ngOnInit(): void {
     this.scheduleForm = this.fb.group({
       scheduleName: ['', Validators.required],
+      scheduleDescription: [''],
       subject_schedule: this.fb.array([this.addCoursesFormGroup()])
     })
 
@@ -40,7 +41,8 @@ export class EditScheduleComponent implements OnInit {
   editSchedule(schedule){
     console.log(schedule);
     this.scheduleForm.patchValue({
-      scheduleName:schedule.scheduleName
+      scheduleName:schedule.scheduleName,
+      scheduleDescription:schedule.scheduleDescription
     });
    
     this.scheduleForm.setControl('subject_schedule', this.setExistingCourses(schedule.subject_schedule));
@@ -77,7 +79,7 @@ export class EditScheduleComponent implements OnInit {
     this.scheduleCourses = this.scheduleForm.value.subject_schedule.flatMap((item)=>Object.values(item));
     console.log(this.scheduleCourses);
 
-    const editFormData = {scheduleName:this.scheduleForm.value.scheduleName, subject_schedule:this.scheduleCourses};
+    const editFormData = {scheduleName:this.scheduleForm.value.scheduleName, scheduleDescription:this.scheduleForm.value.scheduleDescription, subject_schedule:this.scheduleCourses};
 
     this.scheduleService.editSchedule(this.scheduleForm.value.scheduleName,editFormData).subscribe(data=>console.log(data));
     this.scheduleForm.reset();

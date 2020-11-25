@@ -3,10 +3,19 @@ const Schema = mongoose.Schema;
 
 //Creating a Schedule Schema and Model
 const SchedulesSchema = new Schema({
+    visibility:{
+        type:String
+    },
+
     scheduleName: {
         type: String,
         required:[true, 'Schedule Name is required!'],
         unique:true
+    },
+
+    scheduleDescription:{
+        type:String,
+        required:false
     },
 
     subject_schedule:{

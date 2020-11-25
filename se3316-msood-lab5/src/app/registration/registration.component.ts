@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -10,7 +11,7 @@ import { Users } from '../Users';
 })
 export class RegistrationComponent implements OnInit {
   private SERVER_URL = environment.SERVER_URL;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router:Router) { }
 
   ngOnInit(): void {
   }
@@ -56,6 +57,7 @@ export class RegistrationComponent implements OnInit {
 
    if ((/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(form.value.email)) && (form.value.password!="") && (form.value.password.length>6) && (form.value.username!="")){
   this.addnewUser(newFormData).subscribe(data=>console.log(data));
+  this.router.navigate(['/login']);
    }
 
    form.reset();
