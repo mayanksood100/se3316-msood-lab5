@@ -1,6 +1,11 @@
 <div id="editScheduleForm">
     <h2 id="editTitle">Edit Schedule</h2>
     <form [formGroup]="scheduleForm" (ngSubmit)="submitEditedSchedule()">
+
+      <input type="radio" id="public" formControlName="visibility" value="public" class="radioVisibility">
+      <label for="public" class="radioVisibilityL">Public</label><br>
+      <input type="radio" id="private" formControlName="visibility" value="private" checked class="radioVisibility">
+      <label for="private" class="radioVisibilityL">Private</label><br><br>
   
       <label for="scheduleName">Enter Schedule Name</label>
       <input type="text" formControlName="scheduleName" placeholder="Schedule Name" required onkeydown="return /\p{L}/u.test(event.key)" id="scheduleNameInput"><br><br>

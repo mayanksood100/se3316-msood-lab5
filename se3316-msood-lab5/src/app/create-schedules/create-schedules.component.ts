@@ -38,12 +38,30 @@ export class CreateSchedulesComponent implements OnInit {
 
   submitSchedule(): void {
 
-    console.log(this.scheduleForm.value.visibility);
     this.scheduleCourses = this.scheduleForm.value.subject_schedule.flatMap((item)=>Object.values(item));
     const newFormData = {visibility:this.scheduleForm.value.visibility, scheduleName:this.scheduleForm.value.scheduleName, scheduleDescription:this.scheduleForm.value.scheduleDescription, subject_schedule:this.scheduleCourses};
     console.log(newFormData);
+
+  if(this.scheduleForm.value.visibility == ""){
+    alert("Please select the visibility of this schedule.");
+   }
+
+   if(this.scheduleForm.value.scheduleCourses==null){
+    alert("Please enter at least one course");
+  }
+
+   if(this.scheduleForm.value.scheduleName == ""){
+    alert("Please enter a schedule name");
+ }
+
+else if(this.scheduleForm.value.scheduleName.length>=10){
+  alert("Please enter a shorter schedule name");
+}
+
+  if(this.scheduleForm.value.visibility != "" && this.scheduleForm.value.scheduleCourses!=null && this.scheduleForm.value.scheduleName != "" && this.scheduleForm.value.scheduleName.length<10 ){
     this.scheduleService.addNewSchedule(newFormData).subscribe(data=>console.log(data));
     this.scheduleForm.reset();
+  }
   }
 
   removeCourseButtonClick(courseIndex:number): void{

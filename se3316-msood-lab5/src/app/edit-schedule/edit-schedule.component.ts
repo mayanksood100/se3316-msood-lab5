@@ -16,6 +16,7 @@ export class EditScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     this.scheduleForm = this.fb.group({
+      visibility: [''],
       scheduleName: ['', Validators.required],
       scheduleDescription: [''],
       subject_schedule: this.fb.array([this.addCoursesFormGroup()])
@@ -75,15 +76,29 @@ export class EditScheduleComponent implements OnInit {
   }
 
   submitEditedSchedule(): void {
-    console.log(this.scheduleForm.value.subject_schedule);
     this.scheduleCourses = this.scheduleForm.value.subject_schedule.flatMap((item)=>Object.values(item));
     console.log(this.scheduleCourses);
 
-    const editFormData = {scheduleName:this.scheduleForm.value.scheduleName, scheduleDescription:this.scheduleForm.value.scheduleDescription, subject_schedule:this.scheduleCourses};
+    const editFormData = {visibility:this.scheduleForm.value.visibility, scheduleName:this.scheduleForm.value.scheduleName, scheduleDescription:this.scheduleForm.value.scheduleDescription, subject_schedule:this.scheduleCourses};
 
+    
+  if(this.scheduleForm.value.visibility == ""){
+    alert("Please select the visibility of this schedule.");
+   }
+
+   if(this.scheduleForm.value.scheduleName == ""){
+    alert("Please enter a schedule name");
+ }
+
+else if(this.scheduleForm.value.scheduleName.length>=10){
+  alert("Please enter a shorter schedule name");
+}
+
+if(this.scheduleForm.value.visibility != "" && this.scheduleForm.value.scheduleName != "" && this.scheduleForm.value.scheduleName.length<10 ){
     this.scheduleService.editSchedule(this.scheduleForm.value.scheduleName,editFormData).subscribe(data=>console.log(data));
     this.scheduleForm.reset();
   }
+}
 
   removeCourseButtonClick(courseIndex:number): void{
     (<FormArray>this.scheduleForm.get('subject_schedule')).removeAt(courseIndex);
