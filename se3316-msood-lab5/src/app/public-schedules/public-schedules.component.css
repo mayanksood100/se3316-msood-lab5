@@ -42,9 +42,17 @@
     height: 80px;
     margin-right: .8em;
     border-radius: 4px 0 0 4px;
-    width:90px;
+    width:150px;
   }
 
 h2{
     text-decoration: underline;
   }
+
+#selectedPublicSchedule{
+    background: linear-gradient(to right, #8f94fb, #4e54c8);
+    padding: 10px;
+    margin: 10px;
+    width: 40%;
+    height: 80%;
+}

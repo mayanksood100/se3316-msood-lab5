@@ -1,11 +1,24 @@
 <h2>Public Schedules</h2>
+<h4>Click on the schedule to view more details!</h4>
 <ul class="schedules">
-  <li *ngFor="let schedule of schedules_fixed">
+  <li *ngFor="let schedule of schedules_fixed" [class.selected]="schedules === selectedPublicSchedule"
+  (click)="onSelect(schedule)">
       <a routerLink="/schedule-detail/{{schedule.scheduleName}}">
         <span class="badge">{{schedule.scheduleName}} - {{schedule.subject_schedule.length}} Course(s)</span> 
       </a>
-    {{schedule.subject_schedule}}
-    {{schedule.scheduleDescription}}
+      Date Modified: {{schedule.updatedAt}}
 </li>
 <br><br>
 </ul>
+
+<div *ngIf="selectedPublicSchedule" id="selectedPublicSchedule">
+
+  <h2>Schecule '{{selectedPublicSchedule.scheduleName}}'' Details</h2>
+  <div>
+   <p><b>Description: </b>{{selectedPublicSchedule.scheduleDescription}}</p> 
+    <p><b>Courses:</b> {{selectedPublicSchedule.subject_schedule}}</p>  
+  </div>
+
+</div>
+
+

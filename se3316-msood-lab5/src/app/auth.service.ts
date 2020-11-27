@@ -20,7 +20,7 @@ export class AuthService {
 
   
   getUserProfile() {
-    return this.http.get(this.SERVER_URL + '/secure/user-detail');
+    return this.http.get<Users[]>(this.SERVER_URL + '/secure/user-detail');
   }
 
   setToken(token:string){

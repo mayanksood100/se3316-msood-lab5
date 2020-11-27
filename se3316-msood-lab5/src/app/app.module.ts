@@ -22,6 +22,7 @@ import { PublicSchedulesComponent } from './public-schedules/public-schedules.co
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +37,7 @@ import { PublicSchedulesComponent } from './public-schedules/public-schedules.co
     CreateSchedulesComponent,
     EditScheduleComponent,
     UserProfileComponent,
-    PublicSchedulesComponent
+    PublicSchedulesComponent,
   
   ],
   imports: [

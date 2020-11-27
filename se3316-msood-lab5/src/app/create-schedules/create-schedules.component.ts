@@ -46,10 +46,6 @@ export class CreateSchedulesComponent implements OnInit {
     alert("Please select the visibility of this schedule.");
    }
 
-   if(this.scheduleForm.value.scheduleCourses==null){
-    alert("Please enter at least one course");
-  }
-
    if(this.scheduleForm.value.scheduleName == ""){
     alert("Please enter a schedule name");
  }
@@ -58,7 +54,7 @@ else if(this.scheduleForm.value.scheduleName.length>=10){
   alert("Please enter a shorter schedule name");
 }
 
-  if(this.scheduleForm.value.visibility != "" && this.scheduleForm.value.scheduleCourses!=null && this.scheduleForm.value.scheduleName != "" && this.scheduleForm.value.scheduleName.length<10 ){
+  if(this.scheduleForm.value.visibility != "" && this.scheduleForm.value.scheduleName != "" && this.scheduleForm.value.scheduleName.length<10 ){
     this.scheduleService.addNewSchedule(newFormData).subscribe(data=>console.log(data));
     this.scheduleForm.reset();
   }

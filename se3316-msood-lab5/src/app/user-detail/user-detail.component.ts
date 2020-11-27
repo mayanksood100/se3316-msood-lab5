@@ -8,6 +8,7 @@ import { Router } from "@angular/router";
   styleUrls: ['./user-detail.component.css']
 })
 export class UserProfileComponent implements OnInit {  
+  userDetails;
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
@@ -15,8 +16,6 @@ export class UserProfileComponent implements OnInit {
       this.router.navigateByUrl('/login');
     }
   }
-
-  
 
   onLogout(){
     this.authService.deleteToken();

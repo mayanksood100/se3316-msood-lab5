@@ -22,7 +22,14 @@ const SchedulesSchema = new Schema({
     subject_schedule:{
         type: Array
     },
-});
+
+    created_at:{type:Date},
+    
+    updated_at:{type:Date}
+
+},);
+
+SchedulesSchema.set('timestamps', true);
 
 const Schedule = mongoose.model('schedule', SchedulesSchema);
 

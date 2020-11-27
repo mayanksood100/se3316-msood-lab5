@@ -1,6 +1,7 @@
 import { SchedulesService } from './../schedules.service';
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import { Schedule } from '../schedule';
 
 @Component({
   selector: 'app-public-schedules',
@@ -10,6 +11,7 @@ import {Router} from '@angular/router';
 export class PublicSchedulesComponent implements OnInit {
   schedules:any[] = [];
   schedules_fixed:any[] = [];
+  selectedPublicSchedule: any[]=[];
 
   constructor(private scheduleService: SchedulesService, private router:Router) { }
 
@@ -31,6 +33,10 @@ export class PublicSchedulesComponent implements OnInit {
           subject_schedule: combineItem(x.subject_schedule),
         }));
     });
+  }
+
+  onSelect(publicSchedule:any){
+    this.selectedPublicSchedule=publicSchedule;
   }
 
 

@@ -126,7 +126,7 @@ router.post('/login', (req,res,next)=>{
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
     const email = req.body.email;
     const password = req.body.password;
-    User.findOne({ email: email}, function(err, foundUser){
+    User.findOne({email: email}, function(err, foundUser){
         if(err){
             return res.send(err);
         }
@@ -148,17 +148,17 @@ router.post('/login', (req,res,next)=>{
 
 //===============ROUTES for Authenticated Users===============================//
 
-// router.get('/secure/user-detail', checkToken, (req,res,next)=>{
-//     User.findOne({ _id: req._id},
-//         (err, user) => {
-//             if (!user){
-//                 return res.status(404).json({ status: false, message: 'User record not found.' });
-//             }
-//             else
-//                 return res.status(200).json({ status: true, user : _.pick(user,['name','username']) });
-//         }
-//     );
-// });
+router.get('/secure/user-detail', checkToken, (req,res,next)=>{
+    User.findOne({ _id: req._id},
+        (err, user) => {
+            if (!user){
+                return res.status(404).json({ status: false, message: 'User record not found.' });
+            }
+            else
+                return res.status(200).json({ status: true, user : user});
+        }
+    );
+});
 
 
 //Retrieving all Schedules from the Database
@@ -262,8 +262,6 @@ router.get("/secure/schedule", (req, res) => {
         else{
           res.send(req.body);
           console.log('Schedule Created Sucessfully');
-          console.log(req.body.scheduleName);
-        
           }
       });
     }     
