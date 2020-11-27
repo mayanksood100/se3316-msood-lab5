@@ -51,6 +51,10 @@ export class CoursesComponent implements OnInit {
   this.router.navigate(['/login']);
 }
 
+viewPublicSchedules(){
+ this.router.navigate(['publicSchedules']);
+}
+
   
 
 }

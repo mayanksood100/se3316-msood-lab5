@@ -14,7 +14,7 @@
     margin: 0 auto;
 }
 
-#registerButton, #loginButton{
+#registerButton, #loginButton, #publicSchedules{
  
   background-color: #4CAF50; 
   color: white;

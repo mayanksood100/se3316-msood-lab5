@@ -8,10 +8,15 @@ import { Injectable, Pipe } from '@angular/core';
 })
 export class SchedulesService {
   private SERVER_URL = environment.SERVER_URL;
+  noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True' }) };
   constructor(private http: HttpClient) { }
 
   getAllSchedules(){
     return this.http.get<Schedule[]>(this.SERVER_URL + '/secure/schedule');
+  }
+
+  getPublicSchedules(){
+    return this.http.get<Schedule[]>(this.SERVER_URL + '/open/publicSchedules', this.noAuthHeader);
   }
 
   getSchedule(name:string){

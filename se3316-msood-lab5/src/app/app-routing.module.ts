@@ -7,6 +7,7 @@ import { CoursesComponent } from './courses/courses.component';
 import { SchedulesComponent } from './schedules/schedules.component';
 import { CreateSchedulesComponent } from './create-schedules/create-schedules.component';
 import { EditScheduleComponent } from './edit-schedule/edit-schedule.component';
+import { PublicSchedulesComponent } from './public-schedules/public-schedules.component';
 import { AuthGuard } from './auth/auth.guard';
 
 
@@ -19,6 +20,7 @@ const routes: Routes = [
 { path: 'schedules', component: SchedulesComponent,canActivate:[AuthGuard] },
 {path:'createSchedule', component:CreateSchedulesComponent, canActivate:[AuthGuard]},
 {path:'editSchedule/:name', component: EditScheduleComponent, canActivate:[AuthGuard]},
+{path:'publicSchedules', component:PublicSchedulesComponent}
 ];
 
 @NgModule({

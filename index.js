@@ -41,13 +41,6 @@ console.log(`${req.method} request for ${req.url}`);
 next();
   });
 
-
-app.use(require("express-session")({
-    secret: "Mayank Sood Testing...",
-    resave:false,
-    saveUninitialized:false
-}));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -81,6 +74,19 @@ const checkToken = (req, res, next) => {
 router.get('/open/courses', (req,res)=>{
     res.send(data);
 });
+
+//Setting up the GET route to retrieve all Public Schedules
+router.get('/open/publicSchedules', (req,res)=>{
+    Schedule.find({visibility:'public'}, function(err, schedule){
+        if(err) {
+          return console.error(err);
+        }
+        else{
+         res.send(JSON.stringify(schedule));
+        }
+    }); 
+});
+
 
 //Setting up POST route to allow for a User to Register
 router.post('/register', (req, res, next)=>{
@@ -164,7 +170,7 @@ router.get("/secure/schedule", (req, res) => {
       else{
         res.send(JSON.stringify(schedule));
       }
-  }); ``
+  }); 
   
   });
   
@@ -183,7 +189,7 @@ router.get("/secure/schedule", (req, res) => {
   });
   
   //Post request to make a new Schedule and add it to the Database.
-  router.post("/secure/schedule", (req, res, next) => {
+  router.post("/secure/schedule", checkToken, (req, res, next) => {
   
     let subjects_data = [];
     let courseNums_data = [];
@@ -264,7 +270,7 @@ router.get("/secure/schedule", (req, res) => {
   });
   
   //Creating a Put request to update the Schedule by its Name.
-  router.put('/secure/schedule/:sched_name', function(req,res,next){
+  router.put('/secure/schedule/:sched_name', checkToken, function(req,res,next){
   
     let subjects_data = [];
     let courseNums_data = [];
@@ -323,14 +329,14 @@ router.get("/secure/schedule", (req, res) => {
   });
   
   //Path to delete all Schedules
-  router.delete('/secure/schedule', (req,res,next)=> {
+  router.delete('/secure/schedule', checkToken, (req,res,next)=> {
     Schedule.deleteMany({}).then(function(schedule){
     res.send(schedule);
       });
    });
   
   //Path to Delete Schedule by a Given Name
-  router.delete('/secure/schedule/:sched_name', (req,res,next)=> {
+  router.delete('/secure/schedule/:sched_name', checkToken, (req,res,next)=> {
   
       Schedule.findOneAndDelete({scheduleName:req.params.sched_name}).then(function(schedule){
         res.send(schedule);

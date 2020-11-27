@@ -18,6 +18,7 @@ import { CreateSchedulesComponent } from './create-schedules/create-schedules.co
 import { EditScheduleComponent } from './edit-schedule/edit-schedule.component';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthInterceptor } from './auth/auth-inceptor';
+import { PublicSchedulesComponent } from './public-schedules/public-schedules.component';
 
 
 
@@ -34,7 +35,8 @@ import { AuthInterceptor } from './auth/auth-inceptor';
     SchedulesComponent,
     CreateSchedulesComponent,
     EditScheduleComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    PublicSchedulesComponent
   
   ],
   imports: [

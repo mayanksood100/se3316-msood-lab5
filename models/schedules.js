@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 //Creating a Schedule Schema and Model
 const SchedulesSchema = new Schema({
     visibility:{
-        type:String
+        type:String,
+        default:'private'
     },
 
     scheduleName: {
