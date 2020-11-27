@@ -270,7 +270,11 @@ router.get("/secure/schedule", (req, res) => {
   });
   
   //Creating a Put request to update the Schedule by its Name.
+<<<<<<< HEAD
   router.put('/secure/schedule/:sched_name', checkToken, function(req,res,next){
+=======
+  router.put('/secure/schedule/:sched_name', function(req,res,next){
+>>>>>>> 50a740876c35805b6337fdbf7dc1a49b86ce6cf7
   
     let subjects_data = [];
     let courseNums_data = [];
@@ -329,14 +333,22 @@ router.get("/secure/schedule", (req, res) => {
   });
   
   //Path to delete all Schedules
+<<<<<<< HEAD
   router.delete('/secure/schedule', checkToken, (req,res,next)=> {
+=======
+  router.delete('/secure/schedule', (req,res,next)=> {
+>>>>>>> 50a740876c35805b6337fdbf7dc1a49b86ce6cf7
     Schedule.deleteMany({}).then(function(schedule){
     res.send(schedule);
       });
    });
   
   //Path to Delete Schedule by a Given Name
+<<<<<<< HEAD
   router.delete('/secure/schedule/:sched_name', checkToken, (req,res,next)=> {
+=======
+  router.delete('/secure/schedule/:sched_name', (req,res,next)=> {
+>>>>>>> 50a740876c35805b6337fdbf7dc1a49b86ce6cf7
   
       Schedule.findOneAndDelete({scheduleName:req.params.sched_name}).then(function(schedule){
         res.send(schedule);
