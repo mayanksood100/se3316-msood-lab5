@@ -15,6 +15,7 @@ var randomCode = require("randomstring");
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const stringSimilarity = require('string-similarity');
+const rateLimit = require("express-rate-limit");
 const cors = require('cors');
 app.use(cors());
 const passport = require('passport');
@@ -48,7 +49,14 @@ app.use(passport.session());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+const createScheduleLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minute window
+    max: 20, // start blocking after 5 requests
+    message:
+      "Too many schedules created from this IP, please try again after 15 minutes "
+  });
 
+//Function to verify the JWT Token assigned to users.
 const checkToken = (req, res, next) => {
     let token;
     if ('authorization' in req.headers)
@@ -190,7 +198,7 @@ router.get("/secure/schedule", (req, res) => {
   });
   
   //Post request to make a new Schedule and add it to the Database.
-  router.post("/secure/schedule", checkToken, (req, res, next) => {
+  router.post("/secure/schedule", checkToken, createScheduleLimiter, (req, res, next) => {
   
     let subjects_data = [];
     let courseNums_data = [];
@@ -205,7 +213,8 @@ router.get("/secure/schedule", (req, res) => {
       visibility:req.body.visibility,
       scheduleName:req.body.scheduleName,
       scheduleDescription:req.body.scheduleDescription,
-      subject_schedule: req.body.subject_schedule
+      subject_schedule: req.body.subject_schedule,
+      createdBy:req.body.createdBy
     });
     
     let onlysubjects = [];

@@ -27,6 +27,8 @@ const SchedulesSchema = new Schema({
     
     updated_at:{type:Date},
 
+    createdBy:{type:String}
+
 },);
 
 SchedulesSchema.set('timestamps', true);

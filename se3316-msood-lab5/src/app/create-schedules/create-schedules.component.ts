@@ -1,3 +1,4 @@
+import { AuthService } from './../auth.service';
 import { SchedulesService } from './../schedules.service';
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormArray} from '@angular/forms';
@@ -12,8 +13,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class CreateSchedulesComponent implements OnInit {
   scheduleForm: FormGroup;
   scheduleCourses: any[] = [];
-
-  constructor(private scheduleService: SchedulesService, private fb:FormBuilder, private route:ActivatedRoute) { }
+  currentUser:any; 
+  name: string;
+  username:string;
+  constructor(private scheduleService: SchedulesService, private fb:FormBuilder, private route:ActivatedRoute, private authService:AuthService) { }
 
   ngOnInit(): void {
     this.scheduleForm = this.fb.group({
@@ -21,7 +24,8 @@ export class CreateSchedulesComponent implements OnInit {
       scheduleName: ['', Validators.required],
       scheduleDescription: [''],
       subject_schedule: this.fb.array([this.addCoursesFormGroup()])
-    })
+    });
+    this.getUserProfile();
   }
 
   addCoursesFormGroup(): FormGroup {
@@ -36,10 +40,20 @@ export class CreateSchedulesComponent implements OnInit {
     console.log(this.scheduleForm.value);
   }
 
+  getUserProfile(){
+    this.authService.getUserProfile().subscribe(data=>{
+      console.log(data);
+      this.currentUser=data;
+      this.name = this.currentUser.user.name;
+      this.username=this.currentUser.user.username;
+    })
+  }
+
+
   submitSchedule(): void {
 
     this.scheduleCourses = this.scheduleForm.value.subject_schedule.flatMap((item)=>Object.values(item));
-    const newFormData = {visibility:this.scheduleForm.value.visibility, scheduleName:this.scheduleForm.value.scheduleName, scheduleDescription:this.scheduleForm.value.scheduleDescription, subject_schedule:this.scheduleCourses};
+    const newFormData = {visibility:this.scheduleForm.value.visibility, scheduleName:this.scheduleForm.value.scheduleName, scheduleDescription:this.scheduleForm.value.scheduleDescription, subject_schedule:this.scheduleCourses, createdBy:this.name};
     console.log(newFormData);
 
   if(this.scheduleForm.value.visibility == ""){
