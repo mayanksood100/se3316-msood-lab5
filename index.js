@@ -14,6 +14,7 @@ mongoose.Promise = global.Promise;
 var randomCode = require("randomstring");
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
+const stringSimilarity = require('string-similarity');
 const cors = require('cors');
 app.use(cors());
 const passport = require('passport');
@@ -60,7 +61,7 @@ const checkToken = (req, res, next) => {
                 if (err)
                     return res.status(500).send({ auth: false, message: 'Token authentication failed.' });
                 else {
-                    req._id = decoded._id;
+                    req.email = decoded.email;
                     next();
                 }
             }
@@ -137,7 +138,7 @@ router.post('/login', (req,res,next)=>{
             let checkPassword = bcrypt.compareSync(password, foundUser.password);
             if(checkPassword==true){
                let token = jwt.sign({email:email},secret,{expiresIn:'5m'});
-               return res.json({success:true, message:"User Authenticated", token:token, expiresIn:token.expiresIn})
+               return res.json({success:true, message:"User Authenticated", token:token, expiresIn:token.expiresIn, username:foundUser.username})
             }
                 else{
                     return res.send('Incorrect password. Please try again!');
@@ -149,13 +150,13 @@ router.post('/login', (req,res,next)=>{
 //===============ROUTES for Authenticated Users===============================//
 
 router.get('/secure/user-detail', checkToken, (req,res,next)=>{
-    User.findOne({ _id: req._id},
+    User.findOne({email: req.email},
         (err, user) => {
             if (!user){
                 return res.status(404).json({ status: false, message: 'User record not found.' });
             }
             else
-                return res.status(200).json({ status: true, user : user});
+                return res.status(200).json({ status: true, user : _.pick(user,['name','username'])});
         }
     );
 });

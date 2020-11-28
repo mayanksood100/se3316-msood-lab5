@@ -10,11 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
   token: any;
+  username:string;
   constructor(private authService: AuthService, private router:Router) { }
   
   ngOnInit(): void {
   }
-
 
   submitLoginForm(form):void{
 
@@ -42,6 +42,8 @@ export class LoginComponent implements OnInit {
     this.authService.loginUser(newFormData).subscribe(data=>{
       this.token=data;
       console.log(this.token.token);
+      this.username=this.token.username;
+      console.log(this.username);
       this.authService.setToken(data['token']);
       console.log(this.authService);
       this.router.navigate(['/user-detail']);
@@ -49,6 +51,10 @@ export class LoginComponent implements OnInit {
   }
 
     form.reset();
+  }
+
+  getUsername() {
+    return this.username;
   }
 
 }

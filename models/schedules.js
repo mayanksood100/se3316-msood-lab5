@@ -25,7 +25,7 @@ const SchedulesSchema = new Schema({
 
     created_at:{type:Date},
     
-    updated_at:{type:Date}
+    updated_at:{type:Date},
 
 },);
 
