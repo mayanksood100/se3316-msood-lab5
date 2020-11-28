@@ -1,0 +1,26 @@
+<div id="addReviewForm">
+    <h2 id="addTitle">Add a Review for a Course</h2>
+    <form  [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+      
+      <label for="reviewTitle">Enter Review Title</label>
+      <input type="text" formControlName="title" placeholder="Review Title" required 
+      id="reviewTitleInput"><br><br>
+
+      <label for="reviewSubject">Enter Subject</label>
+      <input type="text" formControlName="subject" placeholder="Enter Subject" required 
+      id="reviewSubjectInput"><br><br>
+
+      <label for="reviewCourseNumber">Enter Course Number</label>
+      <input type="text" formControlName="courseNumber" placeholder="Enter Course Number" required 
+      id="reviewCourseNumberInput"><br><br>
+
+      <label for="reviewTitle">Enter Course Rating</label>
+      <input type="number" formControlName="rating" placeholder="Rating Number" required 
+      id="ratingNumberInput"><br><br>
+
+      <label for="reviewComment" id="textareaLabel">Comments:</label>
+      <textarea formControlName="comment" rows="4" cols="84" placeholder="Enter Comments about the course here..." id="textarea" required></textarea><br><br>
+
+      <button type="submit" id="submitReview">Submit Review</button><br><br>
+    </form>
+  </div>

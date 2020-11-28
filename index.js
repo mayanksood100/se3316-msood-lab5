@@ -28,6 +28,7 @@ const secret = 'SE3316 Secret Token'
 //================= Defining Models ===================================
 const User = require("./models/users.js");
 const Schedule = require("./models/schedules.js");
+const Review = require("./models/reviews.js");
 
 //============ Parsing Courses Timetable Data File =================
 fs.readFile("./Lab3-timetable-data.json", "utf-8", (err, jsonString) => {
@@ -349,6 +350,55 @@ router.get("/secure/schedule", (req, res) => {
       Schedule.findOneAndDelete({scheduleName:req.params.sched_name}).then(function(schedule){
         res.send(schedule);
           }); 
+    });
+
+
+    //Setting up a Path to add a new Review to the Database
+    router.post("/secure/review", checkToken, (req, res, next) => {
+
+        let review = new Review({
+            title:req.body.title,
+            subject:req.body.subject,
+            courseNumber:req.body.courseNumber,
+            rating: req.body.rating,
+            comment:req.body.comment,
+            hidden:false
+          });
+
+          if(!req.body.title){
+            res.status(400).send("Rating Title is required");
+          }
+          if(req.body.title.length>16){
+            res.status(400).send("Titleis too long.");
+          }
+          if(!req.body.subject){
+            res.status(400).send("Subject of the course is required");
+          }
+        
+          if(!req.body.courseNumber){
+            res.status(400).send("Course Number is required.");
+          }
+
+          if(!req.body.rating){
+            res.status(400).send("Rating is required.");
+          }
+
+          if(!req.body.comment){
+            res.status(400).send("Some comments are required.");
+          }
+        
+          else{
+            review.save(function (err) {
+              if (err) {
+                    console.error(err.message);
+                    res.send(err.message);
+                  }
+              else{
+                res.send(req.body);
+                console.log('Review Created Sucessfully');
+                }
+            });
+          }    
     });
   
 

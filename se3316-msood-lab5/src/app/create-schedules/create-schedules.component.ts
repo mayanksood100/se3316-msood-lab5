@@ -49,7 +49,6 @@ export class CreateSchedulesComponent implements OnInit {
     })
   }
 
-
   submitSchedule(): void {
 
     this.scheduleCourses = this.scheduleForm.value.subject_schedule.flatMap((item)=>Object.values(item));

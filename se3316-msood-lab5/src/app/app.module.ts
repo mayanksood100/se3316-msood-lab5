@@ -20,8 +20,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { AuthInterceptor } from './auth/auth-inceptor';
 import { PublicSchedulesComponent } from './public-schedules/public-schedules.component';
 import { AdministratorComponent } from './administrator/administrator.component';
-
-
+import { CoursesReviewComponent } from './courses-review/courses-review.component';
 
 
 @NgModule({
@@ -40,6 +39,7 @@ import { AdministratorComponent } from './administrator/administrator.component'
     UserProfileComponent,
     PublicSchedulesComponent,
     AdministratorComponent,
+    CoursesReviewComponent,
   
   ],
   imports: [
