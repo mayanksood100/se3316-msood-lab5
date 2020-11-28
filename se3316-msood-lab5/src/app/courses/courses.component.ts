@@ -1,7 +1,9 @@
+import { AuthService } from './../auth.service';
 import { Router } from '@angular/router';
 import { CoursesService } from './../courses.service';
 import { Courses } from './../Courses';
 import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-courses',
@@ -16,17 +18,23 @@ export class CoursesComponent implements OnInit {
   courseNumber:string;
   courseComponent: string;
   keyword:string;
+  loginCheck:boolean;
 
-  constructor(private courseService: CoursesService, private router: Router) { }
+  constructor(private courseService: CoursesService, private router: Router, private authService:AuthService) { }
 
   ngOnInit(): void {
     this.getAllCourses();
+    this.isLoggedIn();
   }
 
   getAllCourses(){
     this.courseService.getAllCourses().subscribe(courses => {
       this.courses = courses;
     });
+  }
+
+  isLoggedIn(){
+    this.loginCheck = this.authService.isLoggedIn();
   }
 
   onSelect(course:Courses){
@@ -53,6 +61,11 @@ export class CoursesComponent implements OnInit {
 
 viewPublicSchedules(){
  this.router.navigate(['publicSchedules']);
+}
+
+logoutUser(){
+  this.authService.deleteToken();
+  this.router.navigate(['/login']);
 }
 
   

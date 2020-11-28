@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
+
 
 @Component({
   selector: 'app-root',
@@ -7,6 +9,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  loginCheck:boolean;
   title = 'SE 3316 Lab 5';
+
+  constructor(private authService:AuthService){}
+
+  ngOnInit(): void {
+    this.isLoggedIn();
+  }
+  
+  isLoggedIn(){
+    this.loginCheck = this.authService.isLoggedIn();
+  }
+  
 }
 

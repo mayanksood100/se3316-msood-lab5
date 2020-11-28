@@ -19,6 +19,7 @@ import { EditScheduleComponent } from './edit-schedule/edit-schedule.component';
 import { AuthGuard } from './auth/auth.guard';
 import { AuthInterceptor } from './auth/auth-inceptor';
 import { PublicSchedulesComponent } from './public-schedules/public-schedules.component';
+import { AdministratorComponent } from './administrator/administrator.component';
 
 
 
@@ -38,6 +39,7 @@ import { PublicSchedulesComponent } from './public-schedules/public-schedules.co
     EditScheduleComponent,
     UserProfileComponent,
     PublicSchedulesComponent,
+    AdministratorComponent,
   
   ],
   imports: [

@@ -18,7 +18,6 @@ export class AuthService {
     return this.http.post<Users[]>(this.SERVER_URL + '/login', createBody, this.noAuthHeader)
   }
 
-  
   getUserProfile() {
     return this.http.get<Users[]>(this.SERVER_URL + '/secure/user-detail');
   }

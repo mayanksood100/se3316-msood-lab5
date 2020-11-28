@@ -22,4 +22,8 @@ export class UserProfileComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  viewPublicSchedules(){
+    this.router.navigate(['publicSchedules']);
+  }
+
 }
