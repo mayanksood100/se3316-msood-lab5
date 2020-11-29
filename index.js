@@ -85,25 +85,6 @@ router.get('/open/courses', (req,res)=>{
     res.send(data);
 });
 
-//Setting up GET route for /api/open/subjects
-router.get('/open/subjects', (req,res)=>{
-    let subjects=[];
-   for(let i=0; i<data.length; i++){
-    subjects.push(data[i].subject);
-   }
-    res.send(subjects);
-});
-
-//Setting up GET route for /api/open/subjects
-router.get('/open/courseNumber', (req,res)=>{
-    let courseNumber=[];
-   for(let i=0; i<data.length; i++){
-    courseNumber.push(data[i].catalog_nbr);
-   }
-    res.send(courseNumber);
-});
-
-
 //Setting up GET route for /api/open/coursesId
 router.get('/open/courseId', (req,res)=>{
     let test=[];
@@ -114,6 +95,23 @@ router.get('/open/courseId', (req,res)=>{
    const courseId = Array.from({length:test.length/2}, (_,i)=>test[2*i] + " " + test[2*i+1]);
     res.send(courseId);
 });
+
+
+//Setting up the route for getting all the reviews:
+router.get('/open/allReviews', (req,res)=>{
+    Review.find({}, 'title courseId rating comment', function(err, review){
+        if(err) {
+          return console.error(err);
+        }
+        else{
+          res.send(JSON.stringify(review));
+        }
+    }); 
+});
+
+
+
+
 
 //Setting up the GET route to retrieve all Public Schedules
 router.get('/open/publicSchedules', (req,res)=>{
@@ -388,11 +386,11 @@ router.get("/secure/schedule", (req, res) => {
 
         let review = new Review({
             title:req.body.title,
-            subject:req.body.subject,
-            courseNumber:req.body.courseNumber,
+            courseId:req.body.courseId,
             rating: req.body.rating,
             comment:req.body.comment,
-            hidden:false
+            hidden:false,
+            createdBy:req.body.createdBy
           });
 
           if(!req.body.title){
@@ -401,12 +399,9 @@ router.get("/secure/schedule", (req, res) => {
           if(req.body.title.length>16){
             res.status(400).send("Titleis too long.");
           }
-          if(!req.body.subject){
-            res.status(400).send("Subject of the course is required");
-          }
-        
-          if(!req.body.courseNumber){
-            res.status(400).send("Course Number is required.");
+
+          if(!req.body.courseId){
+            res.status(400).send("The course you want to review is required");
           }
 
           if(!req.body.rating){

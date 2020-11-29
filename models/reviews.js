@@ -12,22 +12,22 @@ const ReviewSchema = new mongoose.Schema({
     rating:{
         type: Number,
         max: 6
-    },  
-    subject: {
-        type: String,
-        required: true
     },
-
-    courseNumber:{
+    
+    courseId: {
         type: String,
         required: true
     },
 
     hidden:{
         type:Boolean
-    }
+    },
+
+    createdBy:{type:String}
     
 })
+
+ReviewSchema.set('timestamps', true);
 
 const Review = mongoose.model('reviews', ReviewSchema);
 

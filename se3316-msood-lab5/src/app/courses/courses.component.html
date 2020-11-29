@@ -31,7 +31,17 @@
 
 <div *ngIf="selectedCourse" class="selectedDiv">
     <h2 id="selectedHeading">{{selectedCourse.subject}} {{selectedCourse.catalog_nbr}} - {{selectedCourse.className}}</h2>
-    <p><b>Description:</b>{{selectedCourse.catalog_description}}</p>
+    <h4><b>Description: </b>{{selectedCourse.catalog_description}}</h4>
+    <p><b>Reviews for </b>{{myConcatenation}}:</p>
+    <div *ngFor="let review of allReviews">
+        <div *ngIf="myConcatenation == review.courseId">
+           <p>Title: {{review.title}}</p> 
+            <p>Rating: {{review.rating}} Stars</p>
+            <p>Comments: {{review.comment}} </p>
+            <p>Submitted By: {{review.createdBy}} - {{review.createdAt}}</p>
+        </div>
+     
+    </div>
 </div>
 
 

@@ -14,7 +14,11 @@ export class CoursesComponent implements OnInit {
 
   courses: Courses[];
   courseIds:[];
+  allReviews:[];
   selectedCourse: Courses;
+  myConcatenation: String;
+  currentUser:any; 
+  username:string;
   subject: string;
   courseNumber:string;
   courseComponent: string;
@@ -26,7 +30,7 @@ export class CoursesComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCourses();
     this.isLoggedIn();
-   
+    this.getAllReviews();
   }
 
   getAllCourses(){
@@ -41,6 +45,11 @@ export class CoursesComponent implements OnInit {
     });
   }
 
+  getAllReviews(){
+    this.courseService.getAllReviews().subscribe(reviews=>{
+      this.allReviews=reviews;
+    })
+  }
 
   isLoggedIn(){
     this.loginCheck = this.authService.isLoggedIn();
@@ -48,6 +57,7 @@ export class CoursesComponent implements OnInit {
 
   onSelect(course:Courses){
     this.selectedCourse=course;
+    this.myConcatenation=`${this.selectedCourse.subject} ${this.selectedCourse.catalog_nbr}`
     console.log(this.selectedCourse);
   }
 
@@ -57,7 +67,6 @@ export class CoursesComponent implements OnInit {
         return 'red';
       case 'LAB':
         return 'blue';
-      
     }
   }
 

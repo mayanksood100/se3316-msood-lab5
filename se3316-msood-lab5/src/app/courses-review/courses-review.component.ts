@@ -15,85 +15,64 @@ export class CoursesReviewComponent implements OnInit {
   subjects:[];
   courseNumbers:[];
   matchSubject:Boolean;
+  currentUser:any; 
+  username:string;
   reviewForm: FormGroup;
   constructor(private fb:FormBuilder, private route:ActivatedRoute, private authService:AuthService, private reviewService:ReviewService, private courseService:CoursesService) { }
 
   ngOnInit(): void {
     this.reviewForm = this.fb.group({
       title: ['', Validators.required],
-      subject: ['', Validators.required],
-      courseNumber: ['', Validators.required],
+      courseId: ['', Validators.required],
       rating:['', Validators.required],
       comment:['', Validators.required]
     });
-    this.getSubjects();
-    this.getCourseNumbers();
     this.getCourseIds();
+    this.getUserProfile();
   }
 
-  getSubjects(){
-    this.courseService.getAllSubjects().subscribe(subjects=>{
-      this.subjects=subjects;
-    })
-  };
-
-  getCourseNumbers(){
-    this.courseService.getAllCourseNumbers().subscribe(courseNumbers=>{
-      this.courseNumbers=courseNumbers;
-      console.log(this.courseNumbers);
-    })
-  };
 
   getCourseIds(){
     this.courseService.getCourseIds().subscribe(data=>{
       this.courseIds=data;
+      console.log(this.courseIds);
     })
   }
 
-  checkSubject(){
-    console.log(this.subjects.length);
-    for(let i=0; i<this.subjects.length; i++){
-      if(this.subjects[i] == this.reviewForm.value.subject.toUpperCase()){
+  checkCourseIds(){
+    console.log(this.courseIds.length);
+    for(let i=0; i<this.courseIds.length; i++){
+      if(this.courseIds[i] == this.reviewForm.value.courseId){
        return true;
     }
   }
     return false;
   }
 
-  checkCourseNumbers(){
-    for(let i=0; i<this.courseNumbers.length; i++){
-      if(this.courseNumbers[i] == this.reviewForm.value.courseNumber){
-       return true;
-    }
+  getUserProfile(){
+    this.authService.getUserProfile().subscribe(data=>{
+      console.log(data);
+      this.currentUser=data;
+      this.username=this.currentUser.user.username;
+    })
   }
-    return false;
-  }
+
 
   submitReview(){
-
-    this.checkSubject();
-    this.checkCourseNumbers();
+    this.checkCourseIds();
    
-   const reviewFormData = {title:this.reviewForm.value.title, subject:this.reviewForm.value.subject, courseNumber:this.reviewForm.value.courseNumber,rating:this.reviewForm.value.rating, comment:this.reviewForm.value.comment}
+   const reviewFormData = {title:this.reviewForm.value.title, courseId:this.reviewForm.value.courseId, subject:this.reviewForm.value.subject, courseNumber:this.reviewForm.value.courseNumber,rating:this.reviewForm.value.rating, comment:this.reviewForm.value.comment, createdBy:this.username}
 
    if(this.reviewForm.value.title==null||this.reviewForm.value.title==""){
      alert("Please enter a title for the course Review");
    }
 
-   if(this.reviewForm.value.subject==null||this.reviewForm.value.subject==""){
-    alert("Please enter the subject of the course you want to review");
-  }
+   if(this.reviewForm.value.courseId==null||this.reviewForm.value.courseId==""){
+    alert("Please enter the subject and course number for the course you want to review");
+   }
 
-  if(this.checkSubject()==false){
-    alert("Invalid Subject. This subject is not offered at Western University.");
-  }
-
-  if(this.reviewForm.value.courseNumber==null||this.reviewForm.value.courseNumber==""){
-    alert("Please enter the courseNumber of the course you want to review");
-  }
-
-  if(this.checkCourseNumbers()==false){
-    alert("Invalid CourseNumber");
+  if(this.checkCourseIds()==false){
+    alert("Invalid Course. This course is not offered at Western University.");
   }
 
   if(this.reviewForm.value.rating==null||this.reviewForm.value.rating==""){
@@ -108,7 +87,7 @@ export class CoursesReviewComponent implements OnInit {
     alert("Please enter some comments for the course.");
   }
 
-  if(this.reviewForm.value.title!="" && this.reviewForm.value.subject!="" && this.reviewForm.value.courseNumber!="" && this.reviewForm.value.rating!="" && (this.reviewForm.value.rating>=1 || this.reviewForm.value.rating<=5) && this.reviewForm.value.comment!="" && this.checkSubject()==true && this.checkCourseNumbers()==true ){
+  if(this.reviewForm.value.title!="" && this.reviewForm.value.courseId!="" && this.reviewForm.value.rating!="" && (this.reviewForm.value.rating>=1 || this.reviewForm.value.rating<=5) && this.reviewForm.value.comment!="" && this.checkCourseIds()==true ){
    this.reviewService.addNewReview(reviewFormData).subscribe(data=>console.log(data));
    this.reviewForm.reset();
    alert(`Your review was successfully submitted.`);

@@ -15,17 +15,13 @@ export class CoursesService {
   getAllCourses(){
     return this.http.get<Courses[]>(this.SERVER_URL + '/open/courses', this.noAuthHeader);
   }
-
-  getAllSubjects(){
-    return this.http.get<[]>(this.SERVER_URL + '/open/subjects', this.noAuthHeader);
-  }
-
-  getAllCourseNumbers(){
-    return this.http.get<[]>(this.SERVER_URL + '/open/courseNumber', this.noAuthHeader);
-  }
-
+  
   getCourseIds(){
   return this.http.get<[]>(this.SERVER_URL + '/open/courseId', this.noAuthHeader);
+  }
+
+  getAllReviews(){
+    return this.http.get<[]>(this.SERVER_URL + '/open/allReviews', this.noAuthHeader);
   }
   
 }
