@@ -85,6 +85,36 @@ router.get('/open/courses', (req,res)=>{
     res.send(data);
 });
 
+//Setting up GET route for /api/open/subjects
+router.get('/open/subjects', (req,res)=>{
+    let subjects=[];
+   for(let i=0; i<data.length; i++){
+    subjects.push(data[i].subject);
+   }
+    res.send(subjects);
+});
+
+//Setting up GET route for /api/open/subjects
+router.get('/open/courseNumber', (req,res)=>{
+    let courseNumber=[];
+   for(let i=0; i<data.length; i++){
+    courseNumber.push(data[i].catalog_nbr);
+   }
+    res.send(courseNumber);
+});
+
+
+//Setting up GET route for /api/open/coursesId
+router.get('/open/courseId', (req,res)=>{
+    let test=[];
+   for(let i=0; i<data.length; i++){
+    test.push(data[i].subject);
+    test.push(data[i].catalog_nbr);
+   }
+   const courseId = Array.from({length:test.length/2}, (_,i)=>test[2*i] + " " + test[2*i+1]);
+    res.send(courseId);
+});
+
 //Setting up the GET route to retrieve all Public Schedules
 router.get('/open/publicSchedules', (req,res)=>{
     Schedule.find({visibility:'public'}, function(err, schedule){
@@ -146,7 +176,7 @@ router.post('/login', (req,res,next)=>{
         else{
             let checkPassword = bcrypt.compareSync(password, foundUser.password);
             if(checkPassword==true){
-               let token = jwt.sign({email:email},secret,{expiresIn:'5m'});
+               let token = jwt.sign({email:email},secret,{expiresIn:'30m'});
                return res.json({success:true, message:"User Authenticated", token:token, expiresIn:token.expiresIn, username:foundUser.username})
             }
                 else{

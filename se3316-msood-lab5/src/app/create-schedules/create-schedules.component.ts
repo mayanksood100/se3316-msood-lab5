@@ -52,7 +52,7 @@ export class CreateSchedulesComponent implements OnInit {
   submitSchedule(): void {
 
     this.scheduleCourses = this.scheduleForm.value.subject_schedule.flatMap((item)=>Object.values(item));
-    const newFormData = {visibility:this.scheduleForm.value.visibility, scheduleName:this.scheduleForm.value.scheduleName, scheduleDescription:this.scheduleForm.value.scheduleDescription, subject_schedule:this.scheduleCourses, createdBy:this.name};
+    const newFormData = {visibility:this.scheduleForm.value.visibility, scheduleName:this.scheduleForm.value.scheduleName, scheduleDescription:this.scheduleForm.value.scheduleDescription, subject_schedule:this.scheduleCourses, createdBy:this.username};
     console.log(newFormData);
 
   if(this.scheduleForm.value.visibility == ""){

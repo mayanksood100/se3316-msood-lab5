@@ -13,6 +13,7 @@ import { Component, OnInit } from '@angular/core';
 export class CoursesComponent implements OnInit {
 
   courses: Courses[];
+  courseIds:[];
   selectedCourse: Courses;
   subject: string;
   courseNumber:string;
@@ -25,6 +26,7 @@ export class CoursesComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCourses();
     this.isLoggedIn();
+   
   }
 
   getAllCourses(){
@@ -32,6 +34,13 @@ export class CoursesComponent implements OnInit {
       this.courses = courses;
     });
   }
+
+  getCourseIds(){
+    this.courseService.getCourseIds().subscribe(ids => {
+      this.courseIds = ids;
+    });
+  }
+
 
   isLoggedIn(){
     this.loginCheck = this.authService.isLoggedIn();
