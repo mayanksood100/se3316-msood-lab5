@@ -11,6 +11,8 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
   token: any;
   username:string;
+  admin:boolean;
+  response:any;
   constructor(private authService: AuthService, private router:Router) { }
   
   ngOnInit(): void {
@@ -40,13 +42,36 @@ export class LoginComponent implements OnInit {
 
   else{
     this.authService.loginUser(newFormData).subscribe(data=>{
-      this.token=data;
-      console.log(this.token.token);
-      this.username=this.token.username;
-      console.log(this.username);
-      this.authService.setToken(data['token']);
-      console.log(this.authService);
-      this.router.navigate(['/user-detail']);
+     this.response=data;
+      if(this.response.message=="User disabled"){
+        alert("Your account has been disabled by an admin. Please contact msood@uwo.ca to gain access!");
+      }
+
+      else if(this.response.message=="Email does not exist!"){
+        alert("Email does not exist! Please register an account before logging in");
+      }
+
+      else if(this.response.message=="Incorrect password. Please try again!"){
+        alert("Incorrect Password! Please try again.");
+      }
+
+      else{
+        console.log(data);
+        this.token=data;
+        console.log(this.token.token);
+        this.username=this.token.username;
+        console.log(this.username);
+        this.authService.setToken(data['token']);
+        console.log(this.authService);
+        this.admin=this.token.admin;
+        if(this.admin==true){
+          this.router.navigate(['/admin']);
+        }
+        else{
+          this.router.navigate(['/user-detail']);
+        }
+      }
+      
     });
   }
 

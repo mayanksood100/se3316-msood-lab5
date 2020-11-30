@@ -99,7 +99,7 @@ router.get('/open/courseId', (req,res)=>{
 
 //Setting up the route for getting all the reviews:
 router.get('/open/allReviews', (req,res)=>{
-    Review.find({}, 'title courseId rating comment', function(err, review){
+    Review.find({}, 'title courseId rating comment createdBy createdAt', function(err, review){
         if(err) {
           return console.error(err);
         }
@@ -169,22 +169,41 @@ router.post('/login', (req,res,next)=>{
             return res.send(err);
         }
         if(foundUser===null){
-            return res.send("Email does not exist! ");
+            return res.json({message: "Email does not exist!"});
+        }
+
+        let checkPassword = bcrypt.compareSync(password, foundUser.password);
+        if(!checkPassword){
+            return res.json({message: 'Incorrect password. Please try again!'});
         }
         else{
-            let checkPassword = bcrypt.compareSync(password, foundUser.password);
-            if(checkPassword==true){
+            let active = foundUser.active;
+            let deactive = foundUser.deactive;
+            let admin = foundUser.admin;
+
+            if(deactive){return res.json({message: "User disabled", username: foundUser.username})}
+
+            else{
                let token = jwt.sign({email:email},secret,{expiresIn:'30m'});
-               return res.json({success:true, message:"User Authenticated", token:token, expiresIn:token.expiresIn, username:foundUser.username})
+               return res.json({success:true, message:"User Authenticated", token:token, expiresIn:token.expiresIn, username:foundUser.username, admin:foundUser.admin})
             }
-                else{
-                    return res.send('Incorrect password. Please try again!');
-                }
         }
     })
 });
 
 //===============ROUTES for Authenticated Users===============================//
+
+//Retrieving all Users from the Database that are not administrators
+router.get("/secure/users", (req, res) => {
+    User.find({admin:false}, 'name username admin deactive', function(err, user){
+      if(err) {
+        return console.error(err);
+      }
+      else{
+        res.send(JSON.stringify(user));
+      }
+  }); 
+  });
 
 router.get('/secure/user-detail', checkToken, (req,res,next)=>{
     User.findOne({email: req.email},
@@ -197,6 +216,40 @@ router.get('/secure/user-detail', checkToken, (req,res,next)=>{
         }
     );
 });
+
+//Route to get user by their username.
+router.get("/secure/user/:username", (req, res) => {
+  
+    User.findOne({username: req.params.username}, function(err, user){
+      if(err) {
+        console.error(err);
+        res.status(400).send(`User ${req.params.username} was not found!`);
+      }
+      else{
+        res.send(JSON.stringify(user));
+      }
+    });
+  });
+
+ //Route to edit the User Privilege for A User based on his/her username 
+router.put('/secure/user/:username', checkToken, function(req,res,next){
+    
+    if(!req.body.admin){
+      res.status(400).send("Invalid! Choose true or false to let user be admin or not.");
+    }
+   
+    if(!req.body.deactive){
+        res.status(400).send("Invalid! Choose true or false to deactivate user account!");
+    }
+
+  else{
+    User.findOneAndUpdate({username: req.params.username},req.body).then(function(){
+      User.findOne({username: req.params.username}).then(function(user){
+        res.send(user);
+      });
+    });
+  }
+  });
 
 
 //Retrieving all Schedules from the Database

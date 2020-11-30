@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
 export class SchedulesComponent implements OnInit {
   schedules:any[] = [];
   schedules_fixed:any[] = [];
+  confirmDelete = false;
   
   constructor(private scheduleService: SchedulesService, private router:Router) { }
 

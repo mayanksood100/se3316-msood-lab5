@@ -21,6 +21,7 @@ import { AuthInterceptor } from './auth/auth-inceptor';
 import { PublicSchedulesComponent } from './public-schedules/public-schedules.component';
 import { AdministratorComponent } from './administrator/administrator.component';
 import { CoursesReviewComponent } from './courses-review/courses-review.component';
+import { EditUserPrivilegesComponent } from './edit-user-privileges/edit-user-privileges.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { CoursesReviewComponent } from './courses-review/courses-review.componen
     PublicSchedulesComponent,
     AdministratorComponent,
     CoursesReviewComponent,
+    EditUserPrivilegesComponent,
   
   ],
   imports: [

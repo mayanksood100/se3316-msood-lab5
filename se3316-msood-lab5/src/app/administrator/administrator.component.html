@@ -1,1 +1,13 @@
-<p>administrator works!</p>
+<h1>Welcome Administrator!</h1>
+<h2>All Users:</h2>
+    <ul class="users" *ngFor="let user of users">
+        <li>
+        <span class="badge">Name: {{user.name}}</span>
+       
+            <span>Username: {{user.username}}</span> ,  
+            <span>Admin: {{user.admin}}</span>,  
+            <span>Deactive: {{user.deactive}}</span>
+       
+        <span class="editBadge"><button id="editButton" (click)="editButtonClick(user.username)">Edit User Privileges </button></span> 
+        </li>
+    </ul>

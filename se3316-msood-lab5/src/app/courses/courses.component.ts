@@ -48,6 +48,8 @@ export class CoursesComponent implements OnInit {
   getAllReviews(){
     this.courseService.getAllReviews().subscribe(reviews=>{
       this.allReviews=reviews;
+      console.log(reviews);
+      console.log(this.allReviews);
     })
   }
 

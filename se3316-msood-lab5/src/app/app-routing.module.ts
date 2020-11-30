@@ -1,3 +1,5 @@
+import { EditUserPrivilegesComponent } from './edit-user-privileges/edit-user-privileges.component';
+import { AdministratorComponent } from './administrator/administrator.component';
 import { CoursesReviewComponent } from './courses-review/courses-review.component';
 import { UserProfileComponent } from './user-detail/user-detail.component';
 import { LoginComponent } from './login/login.component';
@@ -21,7 +23,9 @@ const routes: Routes = [
 { path: 'schedules', component: SchedulesComponent,canActivate:[AuthGuard] },
 {path:'createSchedule', component:CreateSchedulesComponent, canActivate:[AuthGuard]},
 {path:'editSchedule/:name', component: EditScheduleComponent, canActivate:[AuthGuard]},
-{path:'addReview', component:CoursesReviewComponent, canActivate:[AuthGuard]}
+{path:'addReview', component:CoursesReviewComponent, canActivate:[AuthGuard]},
+{path:'admin', component:AdministratorComponent, canActivate:[AuthGuard]},
+{path:'editUserPrivilege/:username', component: EditUserPrivilegesComponent, canActivate:[AuthGuard]},
 
 ];
 

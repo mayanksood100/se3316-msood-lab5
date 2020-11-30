@@ -7,8 +7,13 @@
     {{schedule.subject_schedule}}
     {{schedule.scheduleDescription}}
     <div id="deleteButtonDiv">
-      <button class="delete" title="Delete Schedule"
-      (click)="deleteSchedule(schedule.scheduleName)">x</button>
+      <span *ngIf="confirmDelete">
+        <span>Are you sure you want to Delete this schedule?</span>
+        <button (click)="deleteSchedule(schedule.scheduleName)">Yes</button>
+        <button (click)="confirmDelete=false">No</button>
+      </span>
+      <button *ngIf="!confirmDelete" class="delete" title="Delete Schedule"
+      (click)="confirmDelete=true">x</button>
     </div>
     <span class="editBadge"><button id="editButton" (click)="editButtonClick(schedule.scheduleName)">Edit Schedule</button></span> 
   </li>

@@ -34,8 +34,6 @@ export class EditScheduleComponent implements OnInit {
   getSchedule(schedName:string){
     this.scheduleService.getSchedule(schedName).subscribe(schedule=>{
       this.editSchedule(schedule);
-      console.log(this.scheduleForm.value.subject_schedule);
-      console.log(schedule);
     });
   }
 

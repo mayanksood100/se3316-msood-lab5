@@ -55,6 +55,25 @@ export class AuthService {
     } 
   }
 
+  getAllUsers(){
+    return this.http.get<[]>(this.SERVER_URL + '/secure/users');
+  }
+
+  getUser(username:string){
+    const url = `${this.SERVER_URL}/secure/user/${username}`;
+    return this.http.get<String>(url);
+  }
+
+  editUser(username:string, updatedBody){
+    const url = `${this.SERVER_URL}/secure/user/${username}`;
+
+    const httpHeaders = new HttpHeaders();
+    httpHeaders.append('content-type', 'application/json');
+
+    return this.http.put<[]>(url, updatedBody);
+  }
+
+
 }
 
 
