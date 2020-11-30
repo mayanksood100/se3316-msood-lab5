@@ -1,0 +1,23 @@
+<div id="editReviewForm">
+    <h2 id="editTitle">Edit Review Visibility</h2>
+    <form [formGroup]="reviewForm" (ngSubmit)="submitEditedReviewVisibility()">
+
+        <div class="form-group">
+            <label for="hidden">Hide Review:</label>
+            <div>
+              <input id="true" type="radio" value="true" name="hidden" formControlName="hidden">
+              <label for="true">True</label>
+           </div>
+           
+           <div>
+              <input id="false" type="radio" value="false" name="hidden" formControlName="hidden">
+              <label for="false">False</label>
+           </div>
+
+            <br><br>
+
+        </div>
+
+      <button type="submit" id="submitEditedReviewVisibility">Submit Updated Review Visibility</button><br><br>
+    </form>
+  </div>

@@ -1,10 +1,10 @@
-.users {
+.users, .reviews {
     margin: 0 0 2em 0;
     list-style-type: none;
     padding: 0;
     width: 15em;
   }
-  .users li {
+  .users li, .reviews li {
     cursor: pointer;
     position: relative;
     left: 0;
@@ -16,13 +16,18 @@
     width:900px;
     height:90px;
   }
-  .users li:hover {
+
+  .reviews li{
+    background-color: #26a742;
+  }
+
+  .users li:hover, .reviews li:hover {
     color: #000000;
     background-color: #DDD;
     left: .1em;
   }
 
-  .users .badge {
+  .users .badge, .reviews .badge {
     display: inline-block;
     font-size: large;
     color: white;
@@ -38,6 +43,10 @@
     width:170px;
   }
 
+  .reviews .badge{
+  background-color: #000000;
+  }
+
   .editBadge{
     font-size: large;
     color: white;
@@ -45,11 +54,15 @@
     padding-right: 15px;
   }
 
-  #editButton{
+  #editButton, #editButton2{
     background-color: #f79220;
     color: white;
     padding: 14px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+  }
+
+  #editButton2{
+    background-color: #ff0000;
   }

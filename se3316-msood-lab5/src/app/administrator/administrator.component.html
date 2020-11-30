@@ -11,3 +11,17 @@
         <span class="editBadge"><button id="editButton" (click)="editButtonClick(user.username)">Edit User Privileges </button></span> 
         </li>
     </ul>
+
+<h2>All Reviews:</h2>
+<ul class="reviews" *ngFor="let review of reviews">
+    <li>
+    <span class="badge">Title: {{review.title}}</span>
+   
+        <span>Course: {{review.courseId}} </span> ,  
+        <span>Rating: {{review.rating}} </span>,  
+        <span>Comment(s): {{review.comment}} </span>, 
+        <span>Hidden: {{review.hidden}} </span>
+   
+    <span class="editBadge"><button id="editButton2" (click)="editReviewVisibility(review.title)">Edit Review Visibility </button></span> 
+    </li>
+</ul>

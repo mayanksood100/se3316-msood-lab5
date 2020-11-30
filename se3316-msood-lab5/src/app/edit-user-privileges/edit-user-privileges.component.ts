@@ -41,7 +41,6 @@ export class EditUserPrivilegesComponent implements OnInit {
   }
 
   submitEditedUser(){
-    console.log("Testing...");
     const editUserData = {admin:this.userForm.value.admin, deactive:this.userForm.value.deactive};
     this.authService.editUser(this.existingUser.username,editUserData).subscribe(data=>{
       console.log(data);

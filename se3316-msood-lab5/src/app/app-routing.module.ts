@@ -12,6 +12,7 @@ import { CreateSchedulesComponent } from './create-schedules/create-schedules.co
 import { EditScheduleComponent } from './edit-schedule/edit-schedule.component';
 import { PublicSchedulesComponent } from './public-schedules/public-schedules.component';
 import { AuthGuard } from './auth/auth.guard';
+import { EditReviewVisibilityComponent } from './edit-review-visibility/edit-review-visibility.component';
 
 const routes: Routes = [
 { path: '', redirectTo: '/courses', pathMatch: 'full'},
@@ -26,6 +27,7 @@ const routes: Routes = [
 {path:'addReview', component:CoursesReviewComponent, canActivate:[AuthGuard]},
 {path:'admin', component:AdministratorComponent, canActivate:[AuthGuard]},
 {path:'editUserPrivilege/:username', component: EditUserPrivilegesComponent, canActivate:[AuthGuard]},
+{path:'editReviewVisibility/:title', component: EditReviewVisibilityComponent, canActivate:[AuthGuard]},
 
 ];
 

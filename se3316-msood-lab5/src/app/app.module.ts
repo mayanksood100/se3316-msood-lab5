@@ -22,6 +22,7 @@ import { PublicSchedulesComponent } from './public-schedules/public-schedules.co
 import { AdministratorComponent } from './administrator/administrator.component';
 import { CoursesReviewComponent } from './courses-review/courses-review.component';
 import { EditUserPrivilegesComponent } from './edit-user-privileges/edit-user-privileges.component';
+import { EditReviewVisibilityComponent } from './edit-review-visibility/edit-review-visibility.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { EditUserPrivilegesComponent } from './edit-user-privileges/edit-user-pr
     AdministratorComponent,
     CoursesReviewComponent,
     EditUserPrivilegesComponent,
+    EditReviewVisibilityComponent,
   
   ],
   imports: [

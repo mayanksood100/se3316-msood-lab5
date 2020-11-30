@@ -99,7 +99,7 @@ router.get('/open/courseId', (req,res)=>{
 
 //Setting up the route for getting all the reviews:
 router.get('/open/allReviews', (req,res)=>{
-    Review.find({}, 'title courseId rating comment createdBy createdAt', function(err, review){
+    Review.find({hidden:false}, 'title courseId rating comment createdBy createdAt', function(err, review){
         if(err) {
           return console.error(err);
         }
@@ -205,6 +205,7 @@ router.get("/secure/users", (req, res) => {
   }); 
   });
 
+  //Sending the name and username to display after a User Logs In
 router.get('/secure/user-detail', checkToken, (req,res,next)=>{
     User.findOne({email: req.email},
         (err, user) => {
@@ -250,6 +251,47 @@ router.put('/secure/user/:username', checkToken, function(req,res,next){
     });
   }
   });
+
+  //Route to retrieve all Reviews Submitted by Users for Admins to mark hidden or not
+  router.get("/secure/reviews", (req, res) => {
+    Review.find({}, 'title comment rating courseId hidden createdBy', function(err, review){
+      if(err) {
+        return console.error(err);
+      }
+      else{
+        res.send(JSON.stringify(review));
+      }
+  }); 
+  });
+
+  //Route to find a review using its title.
+  router.get("/secure/review/:title", (req, res) => {
+  
+    Review.findOne({title: req.params.title}, function(err, review){
+      if(err) {
+        console.error(err);
+        res.status(400).send(`Review ${req.params.title} was not found!`);
+      }
+      else{
+        res.send(JSON.stringify(review));
+      }
+    });
+  });
+
+  router.put('/secure/review/:title', checkToken, function(req,res,next){
+    
+    if(!req.body.hidden){
+res.status(400).send("Invalid! Choose true if you want to hide review or false if you want to show review.");
+    }
+  else{
+    Review.findOneAndUpdate({title: req.params.title},req.body).then(function(){
+      Review.findOne({title: req.params.title}).then(function(review){
+        res.send(review);
+      });
+    });
+  }
+  });
+
 
 
 //Retrieving all Schedules from the Database
