@@ -15,6 +15,7 @@ var randomCode = require("randomstring");
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const stringSimilarity = require('string-similarity');
+const striptags = require('striptags');
 const rateLimit = require("express-rate-limit");
 const cors = require('cors');
 app.use(cors());
@@ -23,7 +24,7 @@ const LocalStrategy = require('passport-local');
 const passportLocalMongoose = require('passport-local-mongoose');
 const jwt = require('jsonwebtoken');
 const _ = require('lodash');
-const port = 3000;
+const port = (process.env.port || 3000);
 const secret = 'SE3316 Secret Token'
 let verificationLink;
 let host;
@@ -53,6 +54,7 @@ app.use(passport.session());
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
 
 const createScheduleLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minute window
@@ -150,9 +152,9 @@ router.post('/register', (req,res,next)=>{
     authenticationCode = randomCode.generate(5);
 
     let users = new User({
-        name:name,
-        username:username,
-        email:newEmail,
+        name:striptags(name),
+        username:striptags(username),
+        email:striptags(newEmail),
         password:hash,
         active:active,
         deactive:false,
@@ -320,7 +322,8 @@ res.status(400).send("Invalid! Choose true if you want to hide review or false i
 
 //Retrieving all Schedules from the Database
 router.get("/secure/schedule", (req, res) => {
-    Schedule.find({}, 'scheduleName scheduleDescription subject_schedule courseNumber_schedule', function(err, schedule){
+
+    Schedule.find({visibility:'private'}, 'scheduleName scheduleDescription subject_schedule courseNumber_schedule', function(err, schedule){
       if(err) {
         return console.error(err);
       }
@@ -359,7 +362,7 @@ router.get("/secure/schedule", (req, res) => {
   
     let schedule = new Schedule({
       visibility:req.body.visibility,
-      scheduleName:req.body.scheduleName,
+      scheduleName:striptags(req.body.scheduleName),
       scheduleDescription:req.body.scheduleDescription,
       subject_schedule: req.body.subject_schedule,
       createdBy:req.body.createdBy
@@ -504,9 +507,9 @@ router.get("/secure/schedule", (req, res) => {
     router.post("/secure/review", checkToken, (req, res, next) => {
 
         let review = new Review({
-            title:req.body.title,
-            courseId:req.body.courseId,
-            rating: req.body.rating,
+            title:striptags(req.body.title),
+            courseId:striptags(req.body.courseId),
+            rating: striptags(req.body.rating),
             comment:req.body.comment,
             hidden:false,
             createdBy:req.body.createdBy
@@ -631,7 +634,7 @@ router.get('/verify/:id', (req,res)=>{
                            console.log(err);
                        } 
                        if (updatedObject){
-                          return res.end("<h1>Verified</h1>");
+                          return res.end("<h1>Your Email is not verified and you may login!</h1>");
                        }
                     });
         } else {

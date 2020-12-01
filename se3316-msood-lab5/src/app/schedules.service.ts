@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Schedule } from './schedule';
 import { environment } from './../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

@@ -3,6 +3,8 @@ import { SchedulesService } from './../schedules.service';
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { Schedule } from '../schedule';
+import { Courses } from '../Courses';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-public-schedules',
@@ -10,16 +12,19 @@ import { Schedule } from '../schedule';
   styleUrls: ['./public-schedules.component.css']
 })
 export class PublicSchedulesComponent implements OnInit {
+  courses: Courses[];
   schedules:any[] = [];
   schedules_fixed:any[] = [];
-  selectedPublicSchedule: any[]=[];
+  selectedPublicSchedule: Array<any>;
   courseIds:[];
   myConcatenation: String;
 
   constructor(private scheduleService: SchedulesService, private router:Router, private courseService:CoursesService) { }
 
   ngOnInit(): void {
-  this.getPublicSchedules();
+    this.getAllCourses();
+    this.getPublicSchedules();
+    this.getCourseIds();
   }
 
   getPublicSchedules(){
@@ -38,16 +43,22 @@ export class PublicSchedulesComponent implements OnInit {
     });
   }
 
-  onSelect(publicSchedule:any){
-    this.selectedPublicSchedule=publicSchedule;
+  onSelect(publicSchedule:Schedule[]){
+    this.selectedPublicSchedule=(publicSchedule);
     console.log(this.selectedPublicSchedule);
-  
+  }
+
+  getAllCourses(){
+    this.courseService.getAllCourses().subscribe(courses => {
+      this.courses = courses;
+      //console.log(this.courses);
+    });
   }
 
   getCourseIds(){
     this.courseService.getCourseIds().subscribe(data=>{
       this.courseIds=data;
-      console.log(data);
+      //console.log(data);
     })
   }
 

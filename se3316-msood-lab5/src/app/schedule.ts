@@ -4,4 +4,5 @@ export class Schedule {
     scheduleDescription:string
     subjects: Object;
     courseCodes: Object;
+    subject_schedule:Array<any>
 }
