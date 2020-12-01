@@ -1,0 +1,13 @@
+ <h1>OUR POLICIES</h1>
+
+<ul *ngIf="dmca">
+    <li *ngFor="let policy of dmca">
+        <p>Security & Privacy:</p>
+        <p>{{policy.policyOne}}</p>
+        <br>
+        <p>DMCA Notice & Take down</p>
+        <p>{{policy.policyTwo}}</p>
+        <br>
+        
+    </li>
+</ul>

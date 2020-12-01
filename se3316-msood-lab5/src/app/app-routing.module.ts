@@ -1,3 +1,5 @@
+import { CreateDmcaComponent } from './create-dmca/create-dmca.component';
+import { ViewDmcaComponent } from './view-dmca/view-dmca.component';
 import { EditUserPrivilegesComponent } from './edit-user-privileges/edit-user-privileges.component';
 import { AdministratorComponent } from './administrator/administrator.component';
 import { CoursesReviewComponent } from './courses-review/courses-review.component';
@@ -28,6 +30,8 @@ const routes: Routes = [
 {path:'admin', component:AdministratorComponent, canActivate:[AuthGuard]},
 {path:'editUserPrivilege/:username', component: EditUserPrivilegesComponent, canActivate:[AuthGuard]},
 {path:'editReviewVisibility/:title', component: EditReviewVisibilityComponent, canActivate:[AuthGuard]},
+{ path: 'viewDmca', component: ViewDmcaComponent},
+{path: 'createDmca', component:CreateDmcaComponent, canActivate:[AuthGuard]}
 
 ];
 

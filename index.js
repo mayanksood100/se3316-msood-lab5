@@ -29,6 +29,7 @@ const secret = 'SE3316 Secret Token'
 const User = require("./models/users.js");
 const Schedule = require("./models/schedules.js");
 const Review = require("./models/reviews.js");
+const Dmca = require("./models/dmca.js");
 
 //============ Parsing Courses Timetable Data File =================
 fs.readFile("./Lab3-timetable-data.json", "utf-8", (err, jsonString) => {
@@ -115,7 +116,7 @@ router.get('/open/allReviews', (req,res)=>{
 
 //Setting up the GET route to retrieve all Public Schedules
 router.get('/open/publicSchedules', (req,res)=>{
-    Schedule.find({visibility:'public'}, function(err, schedule){
+    Schedule.find({visibility:'public'}).sort({updatedAt:'descending'}).exec(function(err, schedule){
         if(err) {
           return console.error(err);
         }
@@ -137,7 +138,7 @@ router.post('/register', (req, res, next)=>{
                 email: req.body.email,
                 password: hash,
                 active: false,
-                deactive: true,
+                deactive: false,
                 authenticationCode: randomCode.generate(5),
                 admin: false,
             }
@@ -520,6 +521,49 @@ router.get("/secure/schedule", (req, res) => {
             });
           }    
     });
+
+
+router.get('/DMCA', (req,res)=>{
+    Dmca.find(function (err, dmcas) {  
+        if (err) {
+            res.send(err);
+        }
+        res.send(dmcas);
+    });
+})
+
+router.post('/DMCA', (req,res)=>{
+    dmca = new Dmca();
+        dmca.policyOne = req.body.policyOne;
+        dmca.policyTwo = req.body.policyTwo;
+        dmca.policyThree = req.body.policyThree;
+        dmca.save(function (err, dmca) {
+            if(err){
+                res.send(err)
+            }
+            res.json({message:"Successly Created DMCA", dmca:dmca})
+        })
+})
+
+router.put('/DMCA/:dmca_id', (req,res)=>{
+    let policy1 = req.body.policyOne;
+    let policy2 = req.body.policyTwo;
+    let policy3 = req.body.policyThree;
+    Dmca.findById(req.params.dmca_id, function (err, dmca) {
+        if (err)
+            res.send(err);
+
+        dmca.policyOne = policy1;
+        dmca.policyTwo = policy2;
+        dmca.policyThree = policy3;
+
+        dmca.save(function (err) {
+            if (err)
+                res.send(err)
+            res.json({ message: 'Policies Saved' });
+        });
+    });
+})
   
 
 //============ Using Nodemailer for Verification Email =================//
@@ -553,11 +597,6 @@ function sendConfirm(clientEmail, clientName){
       });
 }
 //===============================================================================//
-
-
-
-
-
 
 app.use("/api", router);
 
