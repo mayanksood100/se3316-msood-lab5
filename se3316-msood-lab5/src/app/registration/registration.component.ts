@@ -11,6 +11,7 @@ import { Users } from '../Users';
 })
 export class RegistrationComponent implements OnInit {
   private SERVER_URL = environment.SERVER_URL;
+  response:any;
   constructor(private http: HttpClient, private router:Router) { }
 
   ngOnInit(): void {
@@ -26,20 +27,15 @@ export class RegistrationComponent implements OnInit {
 
   const newFormData = {name:form.value.name,username:form.value.username, email:form.value.email, password:form.value.password};
 
-  console.log(form.value.name);
-   console.log(form.value.username);
-   console.log(form.value.email);
-   console.log(form.value.password);
-
    if(form.value.name == ""){
     alert("Please enter your full name");
  }
 
- if(form.value.name.length<=5){
+ else if(form.value.name.length<=5){
   alert("Please enter a name greather than 5 characters.");
 }
 
-   if(form.value.password == ""){
+   else if(form.value.password == ""){
     alert("Please enter a password");
  }
 
@@ -47,21 +43,32 @@ export class RegistrationComponent implements OnInit {
     alert("Please enter a password greater than 6 characters.")
  }
 
-  if(form.value.username == "" || form.value.username.length==0 || form.value.username==null){
+ else if(form.value.username == "" || form.value.username.length==0 || form.value.username==null){
    alert("Please enter a username");
  }
 
- if(form.value.email == ""){
+ else if(form.value.email == ""){
   alert("Please enter a email address");
 }
 
-   if ((/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(form.value.email)) && (form.value.password!="") && (form.value.password.length>6) && (form.value.username!="")){
-  this.addnewUser(newFormData).subscribe(data=>console.log(data));
-  this.router.navigate(['/login']);
-   }
+else if(!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(form.value.email))){
+  alert("Invalid Email Address");
+}
+  else {
+  this.addnewUser(newFormData).subscribe(data=>{
+    this.response=data;
+    if(this.response.message=="An account with this email already exists!"){
+      alert(this.response.message);
+    }
+    
+    else{
+    alert("Your account was successfuly created.");
+    this.router.navigate(['/login']);
+    }
+   })
 
-   form.reset();
+    form.reset();
 
   }
-
+  }
 }

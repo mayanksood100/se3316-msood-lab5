@@ -24,21 +24,22 @@ export class LoginComponent implements OnInit {
     console.log(form.value.email);
     console.log(form.value.password);
 
-    if(form.value.password == ""){
-      alert("Please enter a password");
-   }
-  
-    else if(form.value.password.length<=6){
-      alert("Please enter a password greater than 6 characters.")
-   }
-  
+      
    if(form.value.email == ""){
     alert("Please enter a email address");
   }
 
-  if(!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(form.value.email))){
-    alert("Invalid Email Address");
+  else if(!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(form.value.email))){
+    alert("Invalid Email Address.");
   }
+
+   else if(form.value.password == ""){
+      alert("Please enter a password");
+   }
+
+   else if(form.value.password == "" && form.value.email == ""){
+    alert("Please fill out your email address and password to login.");
+ }
 
   else{
     this.authService.loginUser(newFormData).subscribe(data=>{
@@ -53,6 +54,10 @@ export class LoginComponent implements OnInit {
 
       else if(this.response.message=="Incorrect password. Please try again!"){
         alert("Incorrect Password! Please try again.");
+      }
+
+      else if(this.response.message=="The account is not yet verified!"){
+        alert(this.response.message);
       }
 
       else{

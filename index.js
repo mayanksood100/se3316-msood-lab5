@@ -25,6 +25,9 @@ const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const port = 3000;
 const secret = 'SE3316 Secret Token'
+let verificationLink;
+let host;
+let authenticationCode;
 //================= Defining Models ===================================
 const User = require("./models/users.js");
 const Schedule = require("./models/schedules.js");
@@ -128,36 +131,56 @@ router.get('/open/publicSchedules', (req,res)=>{
 
 
 //Setting up POST route to allow for a User to Register
-router.post('/register', (req, res, next)=>{
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-    bcrypt.hash(req.body.password, 10, function(err, hash) {
-        let users = new User(
-            {
-                name:req.body.name,
-                username: req.body.username,
-                email: req.body.email,
-                password: hash,
-                active: false,
-                deactive: false,
-                authenticationCode: randomCode.generate(5),
-                admin: false,
-            }
-        );
-        if(req.body.username==null || req.body.username=="" || req.body.password==null || req.body.password=="" || req.body.email == null || req.body.email=="" || req.body.name==null || req.body.name=="")
-        {
-            res.json({success:false,message:'Ensure name, username, email and password fields are filled out.'});
+router.post('/register', (req,res,next)=>{
+    let name = req.body.name;
+    let username = req.body.username;
+    let newEmail = req.body.email;
+    let active = false;
+  
+    if(newEmail==""){
+        return res.send({message:"Invalid Email."})
+    }
+    let password = req.body.password;
+        
+    if (password == ""){
+        return res.send({message: "Please enter a valid password"});
+    }
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(password, salt);
+    authenticationCode = randomCode.generate(5);
+
+    let users = new User({
+        name:name,
+        username:username,
+        email:newEmail,
+        password:hash,
+        active:active,
+        deactive:false,
+        authenticationCode:authenticationCode,
+        admin:false
+    });
+
+    User.find({'email':newEmail}, function (err, account){
+        if(account[0]==null){
+            users.save(function(err){
+                if (err){
+                    res.send(err);
+                }
+                let didSendEmail = sendConfirm(req.body.email,req.body.name, req.get('host'));
+                if(didSendEmail){
+        res.json({message: "Account has successfully been created", authenticationCode: authenticationCode});
+                }
+                else{
+                    res.json({message: "An account with this email has already been registered."}); 
+                }
+            });
+       
         }
         else{
-            users.save(function (err, users) {
-                if (err) {
-                    return next(err);
-                }
-               
-                sendConfirm(req.body.email,req.body.name);
-                res.json({success:true, message: 'User Successfuly Registered.'});
-            })
+            res.send({message:"An account with this email already exists!"});
         }
-      });
+    });
+
 });
 
 //Setting up POST route to allow for a User to LogIn
@@ -183,7 +206,7 @@ router.post('/login', (req,res,next)=>{
             let admin = foundUser.admin;
 
             if(deactive){return res.json({message: "User disabled", username: foundUser.username})}
-
+            else if(!active){return res.json({message: "The account is not yet verified!", username:foundUser.username})}
             else{
                let token = jwt.sign({email:email},secret,{expiresIn:'30m'});
                return res.json({success:true, message:"User Authenticated", token:token, expiresIn:token.expiresIn, username:foundUser.username, admin:foundUser.admin})
@@ -530,7 +553,7 @@ router.get('/DMCA', (req,res)=>{
         }
         res.send(dmcas);
     });
-})
+});
 
 router.post('/DMCA', (req,res)=>{
     dmca = new Dmca();
@@ -578,24 +601,47 @@ let transporter = nodemailer.createTransport({
     } 
 });
 
-function sendConfirm(clientEmail, clientName){
+function sendConfirm(clientEmail, clientName, host){
+    verificationLink = "http://"+host+"/api/verify/"+authenticationCode;
+
     let mailOptions = { 
         from: 'sanchitkumar54323@gmail.com', 
         to: clientEmail, 
         subject: 'Western Timetable App Account Verification', 
-        text: `Hello ${clientName}. Please click on the link below to verify your email address:` 
+        html: `Hello ${clientName}. Please click on the link below to verify your email address:  ${verificationLink}`, 
     };
     
     transporter.sendMail(mailOptions, function (err,data) {
         if (err) 
         { 
-           console.log("An Error occured", err)
+           console.log("An Error occured", err);
         }
        else{
            console.log('An email has been sent!');
        }
       });
 }
+
+router.get('/verify/:id', (req,res)=>{
+    User.findOne({authenticationCode: req.params.id}, function (err, foundObject){
+        if (foundObject != null){
+             foundObject.active = true;
+                    foundObject.save(function(err, updatedObject){
+                       if (err){
+                           console.log(err);
+                       } 
+                       if (updatedObject){
+                          return res.end("<h1>Verified</h1>");
+                       }
+                    });
+        } else {
+            res.status(404).send();
+             console.log("Email is not verified");
+        res.end("<h1>Bad Request</h1>");
+        }
+    })
+});
+
 //===============================================================================//
 
 app.use("/api", router);

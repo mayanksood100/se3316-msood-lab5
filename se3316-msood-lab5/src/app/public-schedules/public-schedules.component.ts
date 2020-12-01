@@ -1,3 +1,4 @@
+import { CoursesService } from './../courses.service';
 import { SchedulesService } from './../schedules.service';
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
@@ -12,8 +13,10 @@ export class PublicSchedulesComponent implements OnInit {
   schedules:any[] = [];
   schedules_fixed:any[] = [];
   selectedPublicSchedule: any[]=[];
+  courseIds:[];
+  myConcatenation: String;
 
-  constructor(private scheduleService: SchedulesService, private router:Router) { }
+  constructor(private scheduleService: SchedulesService, private router:Router, private courseService:CoursesService) { }
 
   ngOnInit(): void {
   this.getPublicSchedules();
@@ -37,6 +40,15 @@ export class PublicSchedulesComponent implements OnInit {
 
   onSelect(publicSchedule:any){
     this.selectedPublicSchedule=publicSchedule;
+    console.log(this.selectedPublicSchedule);
+  
+  }
+
+  getCourseIds(){
+    this.courseService.getCourseIds().subscribe(data=>{
+      this.courseIds=data;
+      console.log(data);
+    })
   }
 
 
