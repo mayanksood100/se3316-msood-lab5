@@ -18,7 +18,9 @@ export class PublicSchedulesComponent implements OnInit {
   selectedPublicSchedule: Array<any>;
   courseIds:[];
   myConcatenation: String;
-
+  matchArray:any[]=[];
+  matchIndex:any;
+  showMyContainer: boolean = false;
   constructor(private scheduleService: SchedulesService, private router:Router, private courseService:CoursesService) { }
 
   ngOnInit(): void {
@@ -45,13 +47,20 @@ export class PublicSchedulesComponent implements OnInit {
 
   onSelect(publicSchedule:Schedule[]){
     this.selectedPublicSchedule=(publicSchedule);
-    console.log(this.selectedPublicSchedule);
+    console.log(this.selectedPublicSchedule['subject_schedule']);
+    this.myConcatenation=this.selectedPublicSchedule['subject_schedule'][0];
+    console.log(this.myConcatenation);
+   this.matchIndex = (this.matchArray.indexOf(this.myConcatenation));
   }
 
   getAllCourses(){
     this.courseService.getAllCourses().subscribe(courses => {
       this.courses = courses;
-      //console.log(this.courses);
+      console.log(this.courses);
+      for(let i=0; i<this.courses.length; i++){
+        this.matchArray.push(this.courses[i].subject + " " + this.courses[i].catalog_nbr);
+      }
+      console.log(this.matchArray);
     });
   }
 

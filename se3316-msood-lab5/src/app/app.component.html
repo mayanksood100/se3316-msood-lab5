@@ -4,7 +4,7 @@
     <a routerLink="/schedules" *ngIf="loginCheck == true">My Schedules</a> <br>
     <a routerLink="/createSchedule" *ngIf="loginCheck == true">Add a New Schedule</a> <br>
     <a routerLink="/addReview" *ngIf="loginCheck == true">Add a Review for a Course</a> <br>
-    <a routerLink="/createPolicy" *ngIf="adminCheck == true">Administrator Page</a> <br>
-    <a routerLink="/createPolicy" *ngIf="adminCheck == true">Create/Edit Policies</a> <br>
+    <a routerLink="/createPolicy" *ngIf="adminCheck == true && loginCheck == true">Administrator Page</a> <br>
+    <a routerLink="/createPolicy" *ngIf="adminCheck == true && loginCheck == true ">Create/Edit Policies</a> <br>
   </nav>
 <router-outlet></router-outlet>
