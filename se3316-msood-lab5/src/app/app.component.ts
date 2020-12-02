@@ -10,16 +10,24 @@ import { AuthService } from './auth.service';
 })
 export class AppComponent {
   loginCheck:boolean;
+  adminCheck:boolean;
   title = 'SE 3316 Lab 5';
 
   constructor(private authService:AuthService){}
 
   ngOnInit(): void {
     this.isLoggedIn();
+    this.isAdmin();
   }
   
   isLoggedIn(){
     this.loginCheck = this.authService.isLoggedIn();
+  }
+
+  isAdmin(){
+    this.adminCheck = this.authService.checkAdmin();
+    console.log(this.adminCheck);
+
   }
   
 }

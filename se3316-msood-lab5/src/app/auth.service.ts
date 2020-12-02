@@ -22,6 +22,21 @@ export class AuthService {
     return this.http.get<Users[]>(this.SERVER_URL + '/secure/user-detail');
   }
 
+  setAdmin(check:string){
+    localStorage.setItem('admin',check);
+  }
+
+  getAdmin(){
+    return localStorage.getItem('admin');
+  }
+  checkAdmin(){
+    let admin = this.getAdmin();
+    if(admin=="true"){
+      return true;
+    }
+    return false;
+  }
+
   setToken(token:string){
     localStorage.setItem('token',token);
   }
@@ -54,6 +69,8 @@ export class AuthService {
       return false;
     } 
   }
+
+ 
 
   getAllUsers(){
     return this.http.get<[]>(this.SERVER_URL + '/secure/users');

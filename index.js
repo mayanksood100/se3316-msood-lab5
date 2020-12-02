@@ -243,7 +243,9 @@ router.post('/login', (req,res,next)=>{
             let admin = foundUser.admin;
 
             if(deactive){return res.json({message: "User disabled", username: foundUser.username})}
-            else if(!active){return res.json({message: "The account is not yet verified!", username:foundUser.username})}
+            else if(!active){
+                return res.json({message: "The account is not yet verified!", username:foundUser.username});
+            }
             else{
                 currentUser=foundUser.username;
                let token = jwt.sign({email:email},secret,{expiresIn:'30m'});

@@ -62,6 +62,8 @@ export class LoginComponent implements OnInit {
 
       else{
         console.log(data);
+        console.log(data['admin']);
+        this.authService.setAdmin(data['admin']);
         this.token=data;
         console.log(this.token.token);
         this.username=this.token.username;
