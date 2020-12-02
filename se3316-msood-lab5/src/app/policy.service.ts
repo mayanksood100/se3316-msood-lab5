@@ -6,21 +6,21 @@ import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
-export class DmcaService {
+export class PolicyService {
   private SERVER_URL = environment.SERVER_URL;
   noAuthHeader = { headers: new HttpHeaders({ 'NoAuth': 'True' }) };
   constructor(private http: HttpClient, private router:Router) { }
 
-  getDmca(){
-    return this.http.get(this.SERVER_URL + '/DMCA');
+  getPolicies(){
+    return this.http.get(this.SERVER_URL + '/policy');
   }
 
-  postDmca(data){
-    return this.http.post(this.SERVER_URL + '/DMCA',data);
+  addPolicies(data){
+    return this.http.post(this.SERVER_URL + '/policy',data);
   }
 
   updatePolicy(id, data){
-    return this.http.put(this.SERVER_URL+'/DMCA/'+id, data)
+    return this.http.put(this.SERVER_URL+'/policy/'+id, data)
   }
 
 

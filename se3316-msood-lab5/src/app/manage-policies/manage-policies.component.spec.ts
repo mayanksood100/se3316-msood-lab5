@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewDmcaComponent } from './view-dmca.component';
+import { ManagePoliciesComponent } from './manage-policies.component';
 
-describe('ViewDmcaComponent', () => {
-  let component: ViewDmcaComponent;
-  let fixture: ComponentFixture<ViewDmcaComponent>;
+describe('CreateDmcaComponent', () => {
+  let component: ManagePoliciesComponent;
+  let fixture: ComponentFixture<ManagePoliciesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ViewDmcaComponent ]
+      declarations: [ ManagePoliciesComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewDmcaComponent);
+    fixture = TestBed.createComponent(ManagePoliciesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

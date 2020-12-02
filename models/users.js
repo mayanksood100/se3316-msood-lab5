@@ -10,22 +10,20 @@ const UserSchema = new Schema({
         required:true
     },
     username: {
-        type: String,
-        required:true
+        type: String,  
     },
 
     email: { type: String, required: true, max:30, unique:true},
 
     password:{
         type: String,
-        required:true
     },
 
     active: {type: Boolean},
     deactive: {type: Boolean},
     authenticationCode: {type: String, max: 5, min: 5},
     admin: {type: Boolean},
-
+    
 });
 
 UserSchema.plugin(passportLocalMongoose);

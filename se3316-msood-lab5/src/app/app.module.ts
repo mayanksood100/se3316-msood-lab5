@@ -23,8 +23,8 @@ import { AdministratorComponent } from './administrator/administrator.component'
 import { CoursesReviewComponent } from './courses-review/courses-review.component';
 import { EditUserPrivilegesComponent } from './edit-user-privileges/edit-user-privileges.component';
 import { EditReviewVisibilityComponent } from './edit-review-visibility/edit-review-visibility.component';
-import { ViewDmcaComponent } from './view-dmca/view-dmca.component';
-import { CreateDmcaComponent } from './create-dmca/create-dmca.component';
+import { ManagePoliciesComponent } from './manage-policies/manage-policies.component';
+import { ViewPolicyComponent } from './view-policies/view-policies.component';
 
 
 @NgModule({
@@ -46,8 +46,8 @@ import { CreateDmcaComponent } from './create-dmca/create-dmca.component';
     CoursesReviewComponent,
     EditUserPrivilegesComponent,
     EditReviewVisibilityComponent,
-    ViewDmcaComponent,
-    CreateDmcaComponent,
+    ViewPolicyComponent,
+    ManagePoliciesComponent,
   
   ],
   imports: [

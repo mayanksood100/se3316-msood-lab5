@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DmcaService } from './dmca.service';
+import { DmcaService } from './policy.service';
 
 describe('DmcaService', () => {
   let service: DmcaService;

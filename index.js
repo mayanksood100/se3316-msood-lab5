@@ -20,6 +20,8 @@ const rateLimit = require("express-rate-limit");
 const cors = require('cors');
 app.use(cors());
 const passport = require('passport');
+const session = require('express-session');
+const GooglePlusTokenStrategy = require('passport-google-plus-token');
 const LocalStrategy = require('passport-local');
 const passportLocalMongoose = require('passport-local-mongoose');
 const jwt = require('jsonwebtoken');
@@ -29,13 +31,14 @@ const secret = 'SE3316 Secret Token'
 let verificationLink;
 let host;
 let authenticationCode;
+let currentUser;
 //================= Defining Models ===================================
 const User = require("./models/users.js");
 const Schedule = require("./models/schedules.js");
 const Review = require("./models/reviews.js");
-const Dmca = require("./models/dmca.js");
+const Policy = require("./models/policy.js");
 
-//============ Parsing Courses Timetable Data File =================
+//============ Parsing Courses Timetable Data File ===================
 fs.readFile("./Lab3-timetable-data.json", "utf-8", (err, jsonString) => {
     try {
       data = JSON.parse(jsonString);
@@ -44,18 +47,50 @@ fs.readFile("./Lab3-timetable-data.json", "utf-8", (err, jsonString) => {
     }
   });
 
+  //Middleware for logging all Requests made to the Server
 app.use((req, res, next) => {
 console.log(`${req.method} request for ${req.url}`);
 next();
   });
 
+
+  //Middleware for Passport
 app.use(passport.initialize());
 app.use(passport.session());
-
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// passport.use('googleToken', new GooglePlusTokenStrategy({
+//     clientID:'1047840523605-8ggmaqkqoeh1g5cei6tisc8hk3dtfoik.apps.googleusercontent.com',
+//     clientSecret:'ijziR5nL4RpVvccii13UFsWu'
+// }, async (accessToken, refreshToken, profile,done)=>{
+//     try{
+//     console.log('accessToken', accessToken);
+//     console.log('refreshToken', refreshToken);
+//     console.log('profile', profile);
+//     const existingUser = User.findOne({"googleId":profile.id});
+//     if(existingUser){
+//         return done(null,existingUser);
+//     }
+//     const newUser = new User({
+//         name:profile.displayName,
+//         googleId:profile.id,
+//         email:profile.email[0].value
 
+//     });
+//      newUser.save();
+//     done(null,newUser);
+// }
+//     catch(error) {
+//         done(error, false, error.message);
+//       }
+
+// }))
+
+// router.post('/oauth/google',(passport.authenticate('googleToken', {session:false})));
+
+
+//Limiting only 20 Schedules to be Created by one user.
 const createScheduleLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minute window
     max: 20, // start blocking after 5 requests
@@ -210,6 +245,7 @@ router.post('/login', (req,res,next)=>{
             if(deactive){return res.json({message: "User disabled", username: foundUser.username})}
             else if(!active){return res.json({message: "The account is not yet verified!", username:foundUser.username})}
             else{
+                currentUser=foundUser.username;
                let token = jwt.sign({email:email},secret,{expiresIn:'30m'});
                return res.json({success:true, message:"User Authenticated", token:token, expiresIn:token.expiresIn, username:foundUser.username, admin:foundUser.admin})
             }
@@ -323,7 +359,7 @@ res.status(400).send("Invalid! Choose true if you want to hide review or false i
 //Retrieving all Schedules from the Database
 router.get("/secure/schedule", (req, res) => {
 
-    Schedule.find({visibility:'private'}, 'scheduleName scheduleDescription subject_schedule courseNumber_schedule', function(err, schedule){
+    Schedule.find({createdBy:currentUser}, 'scheduleName scheduleDescription subject_schedule courseNumber_schedule', function(err, schedule){
       if(err) {
         return console.error(err);
       }
@@ -549,41 +585,41 @@ router.get("/secure/schedule", (req, res) => {
     });
 
 
-router.get('/DMCA', (req,res)=>{
-    Dmca.find(function (err, dmcas) {  
+router.get('/policy', (req,res)=>{
+    Policy.find(function (err, policies) {  
         if (err) {
             res.send(err);
         }
-        res.send(dmcas);
+        res.send(policies);
     });
 });
 
-router.post('/DMCA', (req,res)=>{
-    dmca = new Dmca();
-        dmca.policyOne = req.body.policyOne;
-        dmca.policyTwo = req.body.policyTwo;
-        dmca.policyThree = req.body.policyThree;
-        dmca.save(function (err, dmca) {
+router.post('/policy', (req,res)=>{
+    policy = new Policy();
+        policy.policyOne = striptags(req.body.policyOne);
+        policy.policyTwo = req.body.policyTwo;
+        policy.policyThree = req.body.policyThree;
+        policy.save(function (err, policy) {
             if(err){
                 res.send(err)
             }
-            res.json({message:"Successly Created DMCA", dmca:dmca})
+            res.json({message:"Successly Created Policy", policy:policy})
         })
 })
 
-router.put('/DMCA/:dmca_id', (req,res)=>{
+router.put('/policy/:policy_id', (req,res)=>{
     let policy1 = req.body.policyOne;
     let policy2 = req.body.policyTwo;
     let policy3 = req.body.policyThree;
-    Dmca.findById(req.params.dmca_id, function (err, dmca) {
+    Policy.findById(req.params.policy_id, function (err, policy) {
         if (err)
             res.send(err);
 
-        dmca.policyOne = policy1;
-        dmca.policyTwo = policy2;
-        dmca.policyThree = policy3;
+        policy.policyOne = policy1;
+        policy.policyTwo = policy2;
+        policy.policyThree = policy3;
 
-        dmca.save(function (err) {
+        policy.save(function (err) {
             if (err)
                 res.send(err)
             res.json({ message: 'Policies Saved' });

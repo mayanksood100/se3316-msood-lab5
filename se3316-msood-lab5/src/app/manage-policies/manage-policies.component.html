@@ -1,0 +1,36 @@
+<h1>Western Timetable Application Policies:</h1>
+<ul *ngIf="dmca">
+    <li *ngFor="let pol of dmca">
+        <h2>Security & Privacy Policy</h2>
+        <p>{{pol.policyOne}}</p>
+        <br>
+        <h2>DMCA Notice & Takedown Policy</h2>
+        <p>{{pol.policyTwo}}</p>
+        <br>
+        <h2>Acceptable Use Policy</h2>
+        <p>{{pol.policyThree}}</p>
+        <button (click)="edit(pol._id)">Edit Policy</button>
+        <hr>
+    </li>
+    <div *ngIf = (display)>
+        <h2>Security & Privacy Policy</h2>
+        <textarea [(ngModel)] = "polOne" rows="10" cols="180"></textarea>
+        <h2>DMCA Notice & Takedown Policy</h2>
+        <textarea [(ngModel)] = "polTwo" rows="10" cols="180"></textarea>
+        <h2>Acceptable Use Policy</h2>
+        <textarea [(ngModel)] = "polThree" rows="10" cols="180"></textarea>
+        <br><br>
+        <button (click)="postChanges()">Submit Changes</button>
+    </div>
+</ul>
+<br>
+<button (click) = "addNew()" id="newPolicy">Create New Policies</button>
+<div *ngIf = (obs)>
+        <h2>Security & Privacy Policy</h2>
+        <textarea [(ngModel)] = "polOne" rows="10" cols="180"></textarea>
+        <h2>DMCA Notice & Takedown Policy</h2>
+        <textarea [(ngModel)] = "polTwo" rows="10" cols="180"></textarea>
+        <h2>Acceptable Use Policy </h2>
+        <textarea [(ngModel)] = "polThree" rows="10" cols="180"></textarea>
+        <button (click)="newPolicy()">Submit Changes</button>
+</div>
