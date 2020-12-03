@@ -14,7 +14,7 @@
     margin: 0 auto;
 }
 
-#logOutButton, #publicSchedules{
+#logOutButton, #publicSchedules, #changePassword{
  
   background-color: #4CAF50; 
   color: white;

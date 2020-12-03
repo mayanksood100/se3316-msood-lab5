@@ -20,6 +20,7 @@ export class PublicSchedulesComponent implements OnInit {
   myConcatenation: String;
   matchArray:any[]=[];
   matchIndex:any;
+  indexArray:any[]=[];
   showMyContainer: boolean = false;
   constructor(private scheduleService: SchedulesService, private router:Router, private courseService:CoursesService) { }
 
@@ -50,13 +51,17 @@ export class PublicSchedulesComponent implements OnInit {
     console.log(this.selectedPublicSchedule['subject_schedule']);
     this.myConcatenation=this.selectedPublicSchedule['subject_schedule'][0];
     console.log(this.myConcatenation);
-   this.matchIndex = (this.matchArray.indexOf(this.myConcatenation));
+   this.matchIndex = (this.matchArray.indexOf(this.myConcatenation)); 
+    
+    this.indexArray=(this.selectedPublicSchedule['subject_schedule']).map(v=>this.matchArray.indexOf(v));
+    console.log(this.indexArray);
+   
   }
+  
 
   getAllCourses(){
     this.courseService.getAllCourses().subscribe(courses => {
       this.courses = courses;
-      console.log(this.courses);
       for(let i=0; i<this.courses.length; i++){
         this.matchArray.push(this.courses[i].subject + " " + this.courses[i].catalog_nbr);
       }

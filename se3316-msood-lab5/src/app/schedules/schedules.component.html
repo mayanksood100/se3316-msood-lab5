@@ -1,6 +1,7 @@
 <h2>My Schedules</h2>
 <ul class="schedules">
-  <li *ngFor="let schedule of schedules_fixed">
+  <li *ngFor="let schedule of schedules_fixed" [class.selected]="schedules === selectedSchedule"
+  (click)="onSelect(schedule)">
       <a routerLink="/schedule-detail/{{schedule.scheduleName}}">
         <span class="badge">{{schedule.scheduleName}} - {{schedule.subject_schedule.length}} Course(s)</span> 
       </a>
@@ -21,4 +22,51 @@
   <button id="deleteAll" (click)="deleteAll()">Delete All Schedules</button>
 
 </ul>
+
+<div *ngIf="selectedSchedule" id="selectedSchedule">
+
+  <h2>Schecule '{{selectedSchedule.scheduleName}}'' Details</h2>
+  <div>
+   <p><b>Description: </b>{{selectedSchedule.scheduleDescription}}</p> 
+    <p><b>Courses:</b> {{selectedSchedule.subject_schedule}}</p>  
+  </div>
+
+  <div *ngFor="let course of courses; index as i">
+    <table *ngIf="indexArray.indexOf(i)> -1">
+      <thead >
+          <tr >
+              <th>Section</th>
+              <th>Component</th>
+              <th>Class Number</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Location</th>
+              <th>Requisites and Constraints</th>
+              <th>Status</th>
+              <th>Campus</th>
+          </tr>
+      </thead>
+      <tbody >
+          <tr >
+              <td>{{course.course_info[0].class_section}}</td>
+              <td>{{course.course_info[0].ssr_component}}</td>
+              <td>{{course.course_info[0].class_nbr}}</td>
+              <td>{{course.course_info[0].start_time}}</td>
+              <td>{{course.course_info[0].end_time}}</td>
+              <td>{{course.course_info[0].facility_ID}}</td>
+              <td>{{course.course_info[0].descr}}</td>
+              <td>{{course.course_info[0].enrl_stat}}</td>
+              <td>{{course.course_info[0].campus}}</td>
+          </tr>
+      </tbody>
+  </table>
+  </div>
+
+</div>
+
+
+
+
+
+
 

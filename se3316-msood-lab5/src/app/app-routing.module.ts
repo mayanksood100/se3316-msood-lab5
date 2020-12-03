@@ -1,3 +1,4 @@
+import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ManagePoliciesComponent } from './manage-policies/manage-policies.component';
 import { ViewPolicyComponent } from './view-policies/view-policies.component';
 import { EditUserPrivilegesComponent } from './edit-user-privileges/edit-user-privileges.component';
@@ -31,7 +32,8 @@ const routes: Routes = [
 {path:'editUserPrivilege/:username', component: EditUserPrivilegesComponent, canActivate:[AuthGuard]},
 {path:'editReviewVisibility/:title', component: EditReviewVisibilityComponent, canActivate:[AuthGuard]},
 { path: 'viewPolicy', component: ViewPolicyComponent},
-{path: 'createPolicy', component:ManagePoliciesComponent, canActivate:[AuthGuard]}
+{path: 'createPolicy', component:ManagePoliciesComponent, canActivate:[AuthGuard]},
+{path:'changePassword/:username', component:ChangePasswordComponent, canActivate:[AuthGuard]}
 
 ];
 

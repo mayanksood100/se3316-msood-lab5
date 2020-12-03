@@ -37,6 +37,10 @@ export class UserProfileComponent implements OnInit {
       this.username=this.currentUser.user.username;
     })
   }
+  
+  changePassword(){
+    this.router.navigate([`/changePassword/${this.username}`]);
+  }
 
  
 

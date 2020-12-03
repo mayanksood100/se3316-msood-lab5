@@ -22,7 +22,7 @@
     </div>
 
     <div *ngFor="let course of courses; index as i">
-      <table *ngIf="i==matchIndex">
+      <table *ngIf="indexArray.indexOf(i)> -1">
         <thead >
             <tr >
                 <th>Section</th>

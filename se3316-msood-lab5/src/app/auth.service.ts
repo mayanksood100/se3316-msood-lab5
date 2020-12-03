@@ -70,8 +70,6 @@ export class AuthService {
     } 
   }
 
- 
-
   getAllUsers(){
     return this.http.get<[]>(this.SERVER_URL + '/secure/users');
   }
@@ -88,6 +86,14 @@ export class AuthService {
     httpHeaders.append('content-type', 'application/json');
 
     return this.http.put<[]>(url, updatedBody);
+  }
+
+  changePassword(username:string, editBody){
+    const url = `${this.SERVER_URL}/secure/changePassword/${username}`;
+    const httpHeaders = new HttpHeaders();
+    httpHeaders.append('content-type', 'application/json');
+    return this.http.put<Users[]>(url, editBody)
+
   }
 
 

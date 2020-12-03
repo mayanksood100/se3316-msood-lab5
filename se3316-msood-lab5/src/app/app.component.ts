@@ -12,7 +12,8 @@ export class AppComponent {
   loginCheck:boolean;
   adminCheck:boolean;
   title = 'SE 3316 Lab 5';
-
+  currentUser:any;
+  username:string;
   constructor(private authService:AuthService){}
 
   ngOnInit(): void {

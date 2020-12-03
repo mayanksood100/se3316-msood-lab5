@@ -151,9 +151,6 @@ router.get('/open/allReviews', (req,res)=>{
 });
 
 
-
-
-
 //Setting up the GET route to retrieve all Public Schedules
 router.get('/open/publicSchedules', (req,res)=>{
     Schedule.find({visibility:'public'}).sort({updatedAt:'descending'}).exec(function(err, schedule){
@@ -628,6 +625,30 @@ router.put('/policy/:policy_id', (req,res)=>{
         });
     });
 })
+
+router.put('/secure/changePassword/:username', checkToken, (req,res)=>{
+    let password = bcrypt.hashSync(req.body.password,bcrypt.genSaltSync(10) );
+    let password2 = req.body.password2;
+    console.log(password);
+    console.log(password2);
+ 
+    if(req.body.password==""){
+        res.status(400).send("Password field is empty");
+    }
+
+    else if(req.body.password2==""){
+        res.status(400).send("Confirm Password field is empty");
+        }
+
+        else{
+        User.findOneAndUpdate({username: req.params.username},password).then(function(){
+          User.findOne({username: req.params.username}).then(function(foundUser){
+            res.send(foundUser);
+          });
+        });
+    }
+      
+});
   
 
 //============ Using Nodemailer for Verification Email =================//

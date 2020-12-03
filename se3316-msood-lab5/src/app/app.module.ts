@@ -25,6 +25,7 @@ import { EditUserPrivilegesComponent } from './edit-user-privileges/edit-user-pr
 import { EditReviewVisibilityComponent } from './edit-review-visibility/edit-review-visibility.component';
 import { ManagePoliciesComponent } from './manage-policies/manage-policies.component';
 import { ViewPolicyComponent } from './view-policies/view-policies.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { ViewPolicyComponent } from './view-policies/view-policies.component';
     EditReviewVisibilityComponent,
     ViewPolicyComponent,
     ManagePoliciesComponent,
+    ChangePasswordComponent,
   
   ],
   imports: [

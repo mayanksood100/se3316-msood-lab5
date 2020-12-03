@@ -31,6 +31,7 @@ export class CoursesComponent implements OnInit {
     this.getAllCourses();
     this.isLoggedIn();
     this.getAllReviews();
+    this.getUserProfile();
   }
 
   getAllCourses(){
@@ -50,6 +51,14 @@ export class CoursesComponent implements OnInit {
       this.allReviews=reviews;
       console.log(reviews);
       console.log(this.allReviews);
+    })
+  }
+
+  getUserProfile(){
+    this.authService.getUserProfile().subscribe(data=>{
+      console.log(data);
+      this.currentUser=data;
+      this.username=this.currentUser.user.username;
     })
   }
 
@@ -86,6 +95,10 @@ viewPublicSchedules(){
 logoutUser(){
   this.authService.deleteToken();
   this.router.navigate(['/login']);
+}
+
+changePassword(){
+  this.router.navigate([`/changePassword/${this.username}`]);
 }
 
   
