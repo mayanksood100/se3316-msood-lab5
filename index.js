@@ -627,21 +627,22 @@ router.put('/policy/:policy_id', (req,res)=>{
 })
 
 router.put('/secure/changePassword/:username', checkToken, (req,res)=>{
-    let password = bcrypt.hashSync(req.body.password,bcrypt.genSaltSync(10) );
-    let password2 = req.body.password2;
+    let password = req.body.password;
     console.log(password);
-    console.log(password2);
- 
+    let salt = bcrypt.genSaltSync(10);
+    let hash = bcrypt.hashSync(password, salt);
+    console.log(hash);
+    
+    password=hash;
+    console.log(" Password is " + password);
+    req.body.password = hash;
+    console.log(" Request.Boy is " + req.body.password);
+    
     if(req.body.password==""){
         res.status(400).send("Password field is empty");
     }
-
-    else if(req.body.password2==""){
-        res.status(400).send("Confirm Password field is empty");
-        }
-
         else{
-        User.findOneAndUpdate({username: req.params.username},password).then(function(){
+        User.findOneAndUpdate({username: req.params.username},req.body).then(function(){
           User.findOne({username: req.params.username}).then(function(foundUser){
             res.send(foundUser);
           });

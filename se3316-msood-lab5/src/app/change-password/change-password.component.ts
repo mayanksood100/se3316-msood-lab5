@@ -25,7 +25,7 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   submitPasswordForm(form): void{
-    const newPasswordData = {password:form.value.password, password2:form.value.password2}
+    const newPasswordData = {password:form.value.password}
 
     console.log(form.value.password);
     console.log(form.value.password2);

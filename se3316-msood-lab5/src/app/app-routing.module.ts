@@ -1,3 +1,4 @@
+import { AdminLogComponent } from './admin-log/admin-log.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ManagePoliciesComponent } from './manage-policies/manage-policies.component';
 import { ViewPolicyComponent } from './view-policies/view-policies.component';
@@ -33,7 +34,8 @@ const routes: Routes = [
 {path:'editReviewVisibility/:title', component: EditReviewVisibilityComponent, canActivate:[AuthGuard]},
 { path: 'viewPolicy', component: ViewPolicyComponent},
 {path: 'createPolicy', component:ManagePoliciesComponent, canActivate:[AuthGuard]},
-{path:'changePassword/:username', component:ChangePasswordComponent, canActivate:[AuthGuard]}
+{path:'changePassword/:username', component:ChangePasswordComponent, canActivate:[AuthGuard]},
+{path:'logRequests', component:AdminLogComponent, canActivate:[AuthGuard]}
 
 ];
 
