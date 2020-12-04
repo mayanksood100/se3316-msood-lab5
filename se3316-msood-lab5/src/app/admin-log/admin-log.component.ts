@@ -23,7 +23,7 @@ export class AdminLogComponent implements OnInit {
   ngOnInit(): void {
     this.checkAdmin();
     this.title="My First Review";
-    this.name="Mayank Sood";
+    this.name="Administrator Admin";
     this.address="100 Web Application Street, London ON";
     this.phoneNumber="519-555-5421";
     this.createdAt='2020-12-02';

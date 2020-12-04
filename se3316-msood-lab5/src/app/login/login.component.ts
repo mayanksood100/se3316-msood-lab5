@@ -18,6 +18,10 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  google(){
+    window.location.href='https://accounts.google.com/ServiceLogin/signinchooser?elo=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin';
+  }
+
   submitLoginForm(form):void{
 
     const newFormData = {email:form.value.email, password:form.value.password};

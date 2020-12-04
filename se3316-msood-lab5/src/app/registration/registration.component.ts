@@ -17,6 +17,10 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  google(){
+    window.location.href='https://accounts.google.com/ServiceLogin/signinchooser?elo=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin';
+  }
+
   addnewUser(createBody){
     const httpHeaders = new HttpHeaders();
     httpHeaders.append('content-type', 'application/json');

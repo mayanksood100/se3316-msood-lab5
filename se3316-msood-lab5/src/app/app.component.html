@@ -6,5 +6,6 @@
     <a routerLink="/addReview" *ngIf="loginCheck == true">Add a Review for a Course</a> <br>
     <a routerLink="/admin" *ngIf="adminCheck == true && loginCheck == true">Administrator Page</a> <br>
     <a routerLink="/createPolicy" *ngIf="adminCheck == true && loginCheck == true ">Create/Edit Policies</a> <br>
+    <a routerLink="/logRequests" *ngIf="adminCheck == true && loginCheck == true ">Log Takedowns/Requests/Disputes</a> <br>
   </nav>
 <router-outlet></router-outlet>

@@ -1,6 +1,6 @@
 #dmcaLetter{
     width: 700px;
-    margin:10px;
+    margin:10px auto;
     padding: 10px;
     background-color: #c3c3c3;
 }
