@@ -4,7 +4,8 @@
   
 <div *ngIf="admin==true">
   <div id="editReviewForm">
-    <h2 id="editTitle">Edit Review Visibility</h2>
+    <h2 id="editTitle">Edit Review Visibility</h2><br>
+    <h4>If a review is selected to be hidden or infringing, it will be hidden from the public. Only courses where both the "hidden" property and "infringing" property is set to false will be visible for the public to view.</h4>
     <form [formGroup]="reviewForm" (ngSubmit)="submitEditedReviewVisibility()">
 
         <div class="form-group">
@@ -32,6 +33,7 @@
               <label for="false_i">False</label>
            </div>
 
+           <br><br>
 
         </div>
 

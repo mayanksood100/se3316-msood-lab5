@@ -38,6 +38,7 @@ const User = require("./models/users.js");
 const Schedule = require("./models/schedules.js");
 const Review = require("./models/reviews.js");
 const Policy = require("./models/policy.js");
+const Logs = require("./models/logs.js");
 
 //============ Parsing Courses Timetable Data File ===================
 fs.readFile("./Lab3-timetable-data.json", "utf-8", (err, jsonString) => {
@@ -110,25 +111,28 @@ router.get('/open/courseId', (req,res)=>{
 });
 
 //Setting up GET route for /api/open/course/:key
-router.get('/open/course/:key', (req,res)=>{
+router.get('/open/course/keywords/:id',  (req,res)=>{
 
-    let key = data.filter((c) => 
-    (c.catalog_nbr + " " + c.className).indexOf(req.params.key.replace(/\s/g, '').toUpperCase())!=-1);
+    let searchData = req.params.id;
+    searchData=searchData.replace(/\s/g,'');
+    let keywords=[];
+    try{
+         data.filter((data)=>{
+            let newString = String(data.catalog_nbr).concat(String(data.className)).replace(/\s/g,'');
+            keywords.push(newString);
+        })
+    } catch(error){
+        console.log(error);
+    }
+    let results = stringSimilarity.findBestMatch(String(searchData).toUpperCase(),keywords);
+    res.status(200).json(data[results.bestMatchIndex]);
 
-    if(key.length>0){ 
-  
-    res.send(key);
-   }
-
-   else{
-    res.status(400).send("No courses were found!");
-   }
 });
 
 
 //Setting up the route for getting all the reviews:
 router.get('/open/allReviews', (req,res)=>{
-    Review.find({hidden:false}, 'title courseId rating comment createdBy createdAt', function(err, review){
+    Review.find({hidden:false, infringing:false}, 'title courseId rating comment createdBy createdAt', function(err, review){
         if(err) {
           return console.error(err);
         }
@@ -529,7 +533,7 @@ router.get("/secure/schedule", (req, res) => {
   
   //Path to delete all Schedules
   router.delete('/secure/schedule', checkToken, (req,res,next)=> {
-    Schedule.deleteMany({}).then(function(schedule){
+    Schedule.deleteMany({createdBy:currentUser}).then(function(schedule){
     res.send(schedule);
       });
    });
@@ -632,6 +636,36 @@ router.put('/policy/:policy_id', (req,res)=>{
     });
 })
 
+router.post("/secure/logRequests", checkToken, (req, res, next) => {
+    let logTakedown = new Logs({
+        title:(req.body.title),
+        type:(req.body.title)
+      });
+
+      if(!req.body.title){
+        res.status(400).send("Review Title for Log Request is required");
+      }
+
+      else if(!req.body.type){
+        res.status(400).send("Type Log Request is required");
+      }
+       
+      else{
+        logTakedown.save(function (err) {
+          if (err) {
+                console.error(err.message);
+                res.send(err.message);
+              }
+          else{
+            res.send(req.body);
+            console.log('Your from was successfully logged.');
+            }
+        });
+      }  
+
+});
+    
+
 router.put('/secure/changePassword/:username', checkToken, (req,res)=>{
     let password = req.body.password;
     console.log(password);
@@ -700,7 +734,7 @@ router.get('/verify/:id', (req,res)=>{
                            console.log(err);
                        } 
                        if (updatedObject){
-                          return res.end("<h1>Your Email is not verified and you may login!</h1>");
+                          return res.end("<h1>Your Email is now verified and you may login!</h1>");
                        }
                     });
         } else {

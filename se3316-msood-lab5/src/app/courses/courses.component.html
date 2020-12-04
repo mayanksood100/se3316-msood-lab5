@@ -50,9 +50,9 @@
 </div>
 
 
-<div *ngFor="let k of keywords">
-    <h3>{{k.subject}} {{k.catalog_nbr}} - {{k.className}}</h3>
-    <p><b>Description:</b>{{k.catalog_description}}</p>
+<div *ngIf="key==true">
+    <h3>{{keywords.subject}} {{keywords.catalog_nbr}} - {{keywords.className}}</h3>
+    <p><b>Description:</b>{{keywords.catalog_description}}</p>
     <table>
         <thead >
             <tr >
@@ -69,15 +69,15 @@
         </thead>
         <tbody >
             <tr >
-                <td>{{k.course_info[0].class_section}}</td>
-                <td>{{k.course_info[0].ssr_component}}</td>
-                <td>{{k.course_info[0].class_nbr}}</td>
-                <td>{{k.course_info[0].start_time}}</td>
-                <td>{{k.course_info[0].end_time}}</td>
-                <td>{{k.course_info[0].facility_ID}}</td>
-                <td>{{k.course_info[0].descr}}</td>
-                <td>{{k.course_info[0].enrl_stat}}</td>
-                <td>{{k.course_info[0].campus}}</td>
+                <td>{{keywords.course_info[0].class_section}}</td>
+                <td>{{keywords.course_info[0].ssr_component}}</td>
+                <td>{{keywords.course_info[0].class_nbr}}</td>
+                <td>{{keywords.course_info[0].start_time}}</td>
+                <td>{{keywords.course_info[0].end_time}}</td>
+                <td>{{keywords.course_info[0].facility_ID}}</td>
+                <td>{{keywords.course_info[0].descr}}</td>
+                <td>{{keywords.course_info[0].enrl_stat}}</td>
+                <td>{{keywords.course_info[0].campus}}</td>
             </tr>
         </tbody>
     </table>

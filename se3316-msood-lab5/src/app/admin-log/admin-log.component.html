@@ -10,19 +10,34 @@
     
         <ol>
             <li>
-                <p>Select what type of  Dmca Implementation you want to log: (i.e. Takedown Request, Infringment Notice , Dispute Claim) by filling out and submitting the corresponsing forms</p>
+                <p>Carefully Review any DMCA Takedown Requests/Infringment Notices or Claim Disputes sent by a 3rd party website and closely inspect if the specified review is a violation of the Digital Millennium Copyright Act of 1998.Then log any of this information by providing the review title and type of thing being logged. The date of this log will automatically be saved. </p>
             </li>
             <li>
-                <p>Select which review violates the copyright policy.</p>
+                <p>You can view all of the reviews on the admin panel page (where all the users and reviews are displayed). To visit the admin panel page, press the "Admin Panel" button below:</p>
             </li>
             <li>
-                <p>At the bottom of the page, disable the review that violates the copyright policy by selecting "True". That review will no longer be accessible on this website. If you accept the claimant's dispute, you can restore the contested review by simply updating your selecting to "False".</p>
+                <p>From that page, you can disable the review that violates the copyright policy by selecting either "hidden" to "true" or "infringing" to true. That review will no longer be accessible on this website. If you accept the claimant's dispute, you can restore the contested review by simply updating your selections to "False".</p>
             </li>
         </ol>
+        <br>
+        
+    <div>
+        <form [formGroup]="logForm" (ngSubmit)="logRequests()">
+
+          
+            <input type="text" name="title" id="reviewTitle" formControlName="title" placeholder="Review Title">
+            <br><br>
+          
+            <input type="text" name="type" id="type" formControlName="type" placeholder="Takedown/Notice/Dispute">
+            <br><br>
+            <button type="submit" id="logButton">Log Item</button>
+        </form>
+    </div>
         
     </div>
     
     <br><br>
+
     
     <div id="dmcaLetter" >
     <h2>Takedown Notice Pursuant to the Digital Millennium Copyright Act of 1998</h2>
@@ -31,17 +46,24 @@
     <p>This is a notice in accordance with the Digital Millennium Copyright Act of 1998 (DMCA) requesting that you immediately cease to provide access to copyrighted material. I wish to report an instance of Copyright Infringement, whereby the infringing material appears on a website for which you are the host.</p>
     <ol> 
     
-    <li> <p>The infringing material, which I contend belongs to me, is the following:</p> Sample Infringing Word
+    <li> <p>The infringing material, which I contend belongs to me, is the following:</p> {{title}}
     </li> 
         <li> <p>The original material is located on my website at the following URLs:</p> sampleurl.com	</li>
         <li> <p>The infringing material is located at the following URLs:</p> sampleurl.com/content	</li>
-        <li> <p>My contact information is:</p> <dl> <dt>Name: SE3316 STUDENT</dt>  <dt>Mailing address: 123 Hollywood Street, Los Angeles, California</dt>
-        <dt>Telephone number: 123-419-1337</dt> 
-        <dt>E-mail address: test@email.com</dt>  </dl> </li> 
+        <li> <p>My contact information is:</p> <dl> <dt>Name: {{name}}</dt>  <dt>Mailing address: {{address}}</dt>
+        <dt>Telephone number: {{phoneNumber}}</dt> 
+        </dl> </li> 
         <li> <p>I have a good faith belief that the use of the described material in the manner complained of is not authorized by the copyright owner, its agent, or by operation of law.</p> </li> 
         <li> <p>The information in this notice is accurate, and I am either the copyright owner or I am authorized to act on behalf of the copyright owner.</p> </li>
-        </ol> <p>I declare under the perjury laws of the United States of America that this notification is true and correct.</p> <dl> <dt>Signed:</dt> <dd>SE3316 STUDENT</dd> <dt>Date:</dt> <dd>2020-12-04</dd> 
-        </dl> <hr> 
+
+        </ol>
+        <p>I declare under the perjury laws of the United States of America that this notification is true and correct.</p> 
+        <dl> 
+            <dt>Signed: {{name}}</dt> 
+            <dt>Date: {{createdAt}}</dt> 
+           
+        </dl> 
+        <hr> 
     </div>    
 </div>
 
