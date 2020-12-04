@@ -1,3 +1,4 @@
+import { AuthService } from './../auth.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./admin-log.component.css']
 })
 export class AdminLogComponent implements OnInit {
-
-  constructor() { }
+  admin:boolean;
+  constructor(private authService:AuthService) { }
 
   ngOnInit(): void {
+    this.checkAdmin();
   }
+
+  checkAdmin(){
+    this.admin = this.authService.checkAdmin();
+  }
+
+  
+
 
 }

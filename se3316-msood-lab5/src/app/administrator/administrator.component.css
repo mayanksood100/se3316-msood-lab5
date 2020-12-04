@@ -54,7 +54,7 @@
     padding-right: 15px;
   }
 
-  #editButton, #editButton2{
+  #editButton, #editButton2, #policyButton, #logButton{
     background-color: #f79220;
     color: white;
     padding: 14px 20px;
@@ -65,4 +65,12 @@
 
   #editButton2{
     background-color: #ff0000;
+  }
+
+  #policyButton{
+    background-color: #06695a;
+  }
+
+  #logButton{
+    background-color: #1e79c9;
   }

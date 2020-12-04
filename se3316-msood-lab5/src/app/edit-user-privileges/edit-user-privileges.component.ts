@@ -12,6 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class EditUserPrivilegesComponent implements OnInit {
   userForm: FormGroup;
   existingUser:any;
+  admin: boolean;
   constructor( private fb:FormBuilder, private route:ActivatedRoute, private authService:AuthService) { }
 
   ngOnInit(): void {
@@ -27,7 +28,14 @@ export class EditUserPrivilegesComponent implements OnInit {
       }
     });
 
+    this.checkAdmin();
+
   }
+
+  checkAdmin(){
+    this.admin = this.authService.checkAdmin();
+  }
+
 
   getUser(username:string){
     this.authService.getUser(username).subscribe(user=>{

@@ -59,7 +59,7 @@ export class CreateSchedulesComponent implements OnInit {
     alert("Please select the visibility of this schedule.");
    }
 
-   if(this.scheduleForm.value.scheduleName == ""){
+ else if(this.scheduleForm.value.scheduleName == ""){
     alert("Please enter a schedule name");
  }
 
@@ -67,10 +67,10 @@ else if(this.scheduleForm.value.scheduleName.length>=20){
   alert("Please enter a shorter schedule name");
 }
 
-  if(this.scheduleForm.value.visibility != "" && this.scheduleForm.value.scheduleName != "" && this.scheduleForm.value.scheduleName.length<20 ){
+ else{
     this.scheduleService.addNewSchedule(newFormData).subscribe(data=>console.log(data));
     this.scheduleForm.reset();
-  }
+ }
   }
 
   removeCourseButtonClick(courseIndex:number): void{

@@ -23,5 +23,9 @@ export class CoursesService {
   getAllReviews(){
     return this.http.get<[]>(this.SERVER_URL + '/open/allReviews', this.noAuthHeader);
   }
+
+  getKeywords(keyword){
+    return this.http.get<[]>(this.SERVER_URL + `/open/course/${keyword}`, this.noAuthHeader);
+  }
   
 }

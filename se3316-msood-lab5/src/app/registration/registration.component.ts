@@ -62,7 +62,7 @@ else if(!(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
     }
     
     else{
-    alert("Your account was successfuly created.");
+    alert("Your account was successfuly created. Please verify your email address to log in!");
     this.router.navigate(['/login']);
     }
    })

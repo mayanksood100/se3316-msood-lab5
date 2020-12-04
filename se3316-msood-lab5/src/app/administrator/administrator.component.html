@@ -1,27 +1,38 @@
-<h1>Welcome Administrator!</h1>
-<h2>All Users:</h2>
-    <ul class="users" *ngFor="let user of users">
+<div *ngIf="admin==false">
+<h1>You are not an Administrator! You do not have access to this route.</h1>
+</div>
+
+<div *ngIf="admin==true">
+    <h1>Welcome Administrator!</h1>
+    <h2>All Users:</h2>
+        <ul class="users" *ngFor="let user of users">
+            <li>
+            <span class="badge">Name: {{user.name}}</span>
+           
+                <span>Username: {{user.username}}</span> ,  
+                <span>Admin: {{user.admin}}</span>,  
+                <span>Deactive: {{user.deactive}}</span>
+           
+            <span class="editBadge"><button id="editButton" (click)="editButtonClick(user.username)">Edit User Privileges </button></span> 
+            </li>
+        </ul>
+    
+    <h2>All Reviews:</h2>
+    <ul class="reviews" *ngFor="let review of reviews">
         <li>
-        <span class="badge">Name: {{user.name}}</span>
+        <span class="badge">Title: {{review.title}}</span>
        
-            <span>Username: {{user.username}}</span> ,  
-            <span>Admin: {{user.admin}}</span>,  
-            <span>Deactive: {{user.deactive}}</span>
+            <span>Course: {{review.courseId}} </span> ,  
+            <span>Rating: {{review.rating}} </span>,  
+            <span>Comment(s): {{review.comment}} </span>, 
+            <span>Hidden: {{review.hidden}} </span>
        
-        <span class="editBadge"><button id="editButton" (click)="editButtonClick(user.username)">Edit User Privileges </button></span> 
+        <span class="editBadge"><button id="editButton2" (click)="editReviewVisibility(review.title)">Edit Review Visibility </button></span> 
         </li>
     </ul>
+    <br>
+    <button (click)="createPolicy()" id="policyButton">Create/Edit Policies</button><br><br>
+    <button  (click)="logRequests()" id="logButton">Send Takedown Requests, Notices and Dispute Claims</button>
 
-<h2>All Reviews:</h2>
-<ul class="reviews" *ngFor="let review of reviews">
-    <li>
-    <span class="badge">Title: {{review.title}}</span>
-   
-        <span>Course: {{review.courseId}} </span> ,  
-        <span>Rating: {{review.rating}} </span>,  
-        <span>Comment(s): {{review.comment}} </span>, 
-        <span>Hidden: {{review.hidden}} </span>
-   
-    <span class="editBadge"><button id="editButton2" (click)="editReviewVisibility(review.title)">Edit Review Visibility </button></span> 
-    </li>
-</ul>
+
+</div>

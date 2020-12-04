@@ -120,8 +120,20 @@ td {
   }
 
   #keywordSearch{
-      margin-left: 175px;
+      margin-left: 155px;
   }
+
+  #keywordSearch2{
+    margin-left: 80px;
+}
+
+#label2{
+    margin-left: 50px;
+}
+
+#keyButton{
+    margin-left: 10px;
+}
 
   #courseNumberSearch{
       margin-left: 110px;
@@ -129,4 +141,8 @@ td {
 
   #courseComponent{
       margin-left: 10px;
+  }
+
+  hr{
+      color: #FFFFFF;
   }

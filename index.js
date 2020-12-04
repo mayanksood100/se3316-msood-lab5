@@ -32,6 +32,7 @@ let verificationLink;
 let host;
 let authenticationCode;
 let currentUser;
+let currentAdmin;
 //================= Defining Models ===================================
 const User = require("./models/users.js");
 const Schedule = require("./models/schedules.js");
@@ -59,35 +60,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-// passport.use('googleToken', new GooglePlusTokenStrategy({
-//     clientID:'1047840523605-8ggmaqkqoeh1g5cei6tisc8hk3dtfoik.apps.googleusercontent.com',
-//     clientSecret:'ijziR5nL4RpVvccii13UFsWu'
-// }, async (accessToken, refreshToken, profile,done)=>{
-//     try{
-//     console.log('accessToken', accessToken);
-//     console.log('refreshToken', refreshToken);
-//     console.log('profile', profile);
-//     const existingUser = User.findOne({"googleId":profile.id});
-//     if(existingUser){
-//         return done(null,existingUser);
-//     }
-//     const newUser = new User({
-//         name:profile.displayName,
-//         googleId:profile.id,
-//         email:profile.email[0].value
-
-//     });
-//      newUser.save();
-//     done(null,newUser);
-// }
-//     catch(error) {
-//         done(error, false, error.message);
-//       }
-
-// }))
-
-// router.post('/oauth/google',(passport.authenticate('googleToken', {session:false})));
 
 
 //Limiting only 20 Schedules to be Created by one user.
@@ -135,6 +107,22 @@ router.get('/open/courseId', (req,res)=>{
    }
    const courseId = Array.from({length:test.length/2}, (_,i)=>test[2*i] + " " + test[2*i+1]);
     res.send(courseId);
+});
+
+//Setting up GET route for /api/open/course/:key
+router.get('/open/course/:key', (req,res)=>{
+
+    let key = data.filter((c) => 
+    (c.catalog_nbr + " " + c.className).indexOf(req.params.key.replace(/\s/g, '').toUpperCase())!=-1);
+
+    if(key.length>0){ 
+  
+    res.send(key);
+   }
+
+   else{
+    res.status(400).send("No courses were found!");
+   }
 });
 
 
@@ -245,6 +233,7 @@ router.post('/login', (req,res,next)=>{
             }
             else{
                 currentUser=foundUser.username;
+                currentAdmin=foundUser.admin;
                let token = jwt.sign({email:email},secret,{expiresIn:'30m'});
                return res.json({success:true, message:"User Authenticated", token:token, expiresIn:token.expiresIn, username:foundUser.username, admin:foundUser.admin})
             }
@@ -256,12 +245,19 @@ router.post('/login', (req,res,next)=>{
 
 //Retrieving all Users from the Database that are not administrators
 router.get("/secure/users", (req, res) => {
-    User.find({admin:false}, 'name username admin deactive', function(err, user){
+    User.find({}, 'name username admin deactive', function(err, user){
       if(err) {
         return console.error(err);
       }
       else{
-        res.send(JSON.stringify(user));
+
+        if(currentAdmin==false){
+            res.send({message:"You are not an administrator!"});
+        }
+        else{
+            res.send(JSON.stringify(user));
+        }
+       
       }
   }); 
   });
@@ -295,7 +291,11 @@ router.get("/secure/user/:username", (req, res) => {
 
  //Route to edit the User Privilege for A User based on his/her username 
 router.put('/secure/user/:username', checkToken, function(req,res,next){
-    
+
+    if(currentAdmin==false){
+        res.send({message:"You are not an administrator!"});
+    }
+
     if(!req.body.admin){
       res.status(400).send("Invalid! Choose true or false to let user be admin or not.");
     }
@@ -319,6 +319,11 @@ router.put('/secure/user/:username', checkToken, function(req,res,next){
       if(err) {
         return console.error(err);
       }
+
+      else if(currentAdmin==false){
+          res.send({message:"You are not an administrator!"});
+      }
+
       else{
         res.send(JSON.stringify(review));
       }
@@ -342,7 +347,7 @@ router.put('/secure/user/:username', checkToken, function(req,res,next){
   router.put('/secure/review/:title', checkToken, function(req,res,next){
     
     if(!req.body.hidden){
-res.status(400).send("Invalid! Choose true if you want to hide review or false if you want to show review.");
+        res.status(400).send("Invalid! Choose true if you want to hide review or false if you want to show review.");
     }
   else{
     Review.findOneAndUpdate({title: req.params.title},req.body).then(function(){
@@ -547,7 +552,8 @@ router.get("/secure/schedule", (req, res) => {
             rating: striptags(req.body.rating),
             comment:req.body.comment,
             hidden:false,
-            createdBy:req.body.createdBy
+            createdBy:req.body.createdBy,
+            infringing:false
           });
 
           if(!req.body.title){
@@ -656,8 +662,8 @@ router.put('/secure/changePassword/:username', checkToken, (req,res)=>{
 let transporter = nodemailer.createTransport({
     service: 'gmail', 
     auth: { 
-        user: "sanchitkumar54323@gmail.com", 
-        pass: "mickyrocks" 
+        user: "westerntimetableapp@gmail.com", 
+        pass: "password123456*" 
     },
     tls:{
         rejectUnauthorized:false
@@ -668,7 +674,7 @@ function sendConfirm(clientEmail, clientName, host){
     verificationLink = "http://"+host+"/api/verify/"+authenticationCode;
 
     let mailOptions = { 
-        from: 'sanchitkumar54323@gmail.com', 
+        from: 'westerntimetableapp@gmail.com', 
         to: clientEmail, 
         subject: 'Western Timetable App Account Verification', 
         html: `Hello ${clientName}. Please click on the link below to verify your email address:  ${verificationLink}`, 

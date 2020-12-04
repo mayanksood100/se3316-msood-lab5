@@ -1,3 +1,4 @@
+import { AuthService } from './../auth.service';
 import { PolicyService } from '../policy.service';
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
@@ -15,11 +16,12 @@ export class ManagePoliciesComponent implements OnInit {
   polThree: string = "";
   display: Boolean = false;
   obs: Boolean = false;
-
-  constructor(private route: Router, private policyService:PolicyService) { }
+  admin:Boolean;
+  constructor(private route: Router, private policyService:PolicyService, private authService:AuthService) { }
 
   ngOnInit(): void {
     this.getPolicies();
+    this.checkAdmin();
   }
 
   getPolicies(){
@@ -59,6 +61,11 @@ export class ManagePoliciesComponent implements OnInit {
     this.policyService.updatePolicy(this.id, changes).subscribe(data => {
       window.location.reload();
     });
+  }
+
+  
+  checkAdmin(){
+    this.admin = this.authService.checkAdmin();
   }
   
 

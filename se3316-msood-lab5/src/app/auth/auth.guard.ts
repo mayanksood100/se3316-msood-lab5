@@ -22,11 +22,6 @@ export class AuthGuard implements CanActivate {
         this.authService.deleteToken();
         return false;
       }
-      else if(this.authService.isLoggedIn() && this.authService.checkAdmin()==false){
-        alert("You are not an administrator!");
-        this.router.navigate['/login'];
-        return false;
-      }
     return true;
   }
 

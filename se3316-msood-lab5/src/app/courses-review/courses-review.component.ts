@@ -3,7 +3,7 @@ import { CoursesService } from './../courses.service';
 import { AuthService } from './../auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators} from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-courses-review',
@@ -18,7 +18,7 @@ export class CoursesReviewComponent implements OnInit {
   currentUser:any; 
   username:string;
   reviewForm: FormGroup;
-  constructor(private fb:FormBuilder, private route:ActivatedRoute, private authService:AuthService, private reviewService:ReviewService, private courseService:CoursesService) { }
+  constructor(private fb:FormBuilder, private route:ActivatedRoute, private authService:AuthService, private reviewService:ReviewService, private courseService:CoursesService, private router:Router) { }
 
   ngOnInit(): void {
     this.reviewForm = this.fb.group({
@@ -61,37 +61,35 @@ export class CoursesReviewComponent implements OnInit {
   submitReview(){
     this.checkCourseIds();
    
-   const reviewFormData = {title:this.reviewForm.value.title, courseId:this.reviewForm.value.courseId, subject:this.reviewForm.value.subject, courseNumber:this.reviewForm.value.courseNumber,rating:this.reviewForm.value.rating, comment:this.reviewForm.value.comment, createdBy:this.username}
+   const reviewFormData = {title:this.reviewForm.value.title, courseId:this.reviewForm.value.courseId,rating:this.reviewForm.value.rating, comment:this.reviewForm.value.comment, createdBy:this.username}
 
    if(this.reviewForm.value.title==null||this.reviewForm.value.title==""){
      alert("Please enter a title for the course Review");
    }
 
-   if(this.reviewForm.value.courseId==null||this.reviewForm.value.courseId==""){
+   else if(this.reviewForm.value.courseId==null||this.reviewForm.value.courseId==""){
     alert("Please enter the subject and course number for the course you want to review");
    }
 
-  if(this.checkCourseIds()==false){
+  else if(this.checkCourseIds()==false){
     alert("Invalid Course. This course is not offered at Western University.");
   }
 
-  if(this.reviewForm.value.rating==null||this.reviewForm.value.rating==""){
+  else if(this.reviewForm.value.rating==null||this.reviewForm.value.rating==""){
     alert("Please enter a rating for the course.");
   }
 
-  if(this.reviewForm.value.rating<1 ||this.reviewForm.value.rating>5){
-    alert("Please enter a rating only between 1 and 5.");
-  }
-
-  if(this.reviewForm.value.comment==null||this.reviewForm.value.comment==""){
+  else if(this.reviewForm.value.comment==null||this.reviewForm.value.comment==""){
     alert("Please enter some comments for the course.");
   }
 
-  if(this.reviewForm.value.title!="" && this.reviewForm.value.courseId!="" && this.reviewForm.value.rating!="" && (this.reviewForm.value.rating>=1 || this.reviewForm.value.rating<=5) && this.reviewForm.value.comment!="" && this.checkCourseIds()==true ){
+else{
    this.reviewService.addNewReview(reviewFormData).subscribe(data=>console.log(data));
    this.reviewForm.reset();
    alert(`Your review was successfully submitted.`);
-  }
+   this.router.navigate(['/courses']);
+   
+}
   }
 
 }

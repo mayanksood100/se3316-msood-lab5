@@ -1,4 +1,9 @@
-<div id="editReviewForm">
+<div *ngIf="admin==false">
+  <h1>You are not an Administrator! You do not have access to this route.</h1>
+  </div>
+  
+<div *ngIf="admin==true">
+  <div id="editReviewForm">
     <h2 id="editTitle">Edit Review Visibility</h2>
     <form [formGroup]="reviewForm" (ngSubmit)="submitEditedReviewVisibility()">
 
@@ -16,8 +21,21 @@
 
             <br><br>
 
+            <label for="infringing">Infringing Material in this Review:</label>
+            <div>
+              <input id="true_i" type="radio" value="true" name="infringing" formControlName="infringing">
+              <label for="true_i">True</label>
+           </div>
+           
+           <div>
+              <input id="false_i" type="radio" value="false" name="infringing" formControlName="infringing">
+              <label for="false_i">False</label>
+           </div>
+
+
         </div>
 
       <button type="submit" id="submitEditedReviewVisibility">Submit Updated Review Visibility</button><br><br>
     </form>
   </div>
+</div>

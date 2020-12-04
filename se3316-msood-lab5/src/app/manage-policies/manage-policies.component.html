@@ -1,3 +1,8 @@
+<div *ngIf="admin==false">
+    <h1>You are not an Administrator! You do not have access to this route.</h1>
+    </div>
+
+    <div *ngIf="admin==true">
 <h1>Western Timetable Application Policies:</h1>
 <ul *ngIf="dmca">
     <li *ngFor="let pol of dmca">
@@ -34,3 +39,6 @@
         <textarea [(ngModel)] = "polThree" rows="10" cols="180"></textarea>
         <button (click)="newPolicy()">Submit Changes</button>
 </div>
+
+</div>
+

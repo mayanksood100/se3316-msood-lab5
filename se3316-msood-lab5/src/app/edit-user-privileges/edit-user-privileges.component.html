@@ -1,36 +1,43 @@
-<div id="editUserForm">
-    <h2 id="editTitle">Edit User Privileges</h2>
-    <form [formGroup]="userForm" (ngSubmit)="submitEditedUser()">
-
-        <div class="form-group">
-            <label for="admin">Admin:</label>
-            <div>
-              <input id="true" type="radio" value="true" name="admin" formControlName="admin">
-              <label for="true">True</label>
-           </div>
-           
-           <div>
-              <input id="false" type="radio" value="false" name="admin" formControlName="admin">
-              <label for="false">False</label>
-           </div>
-
-            <br><br>
-
-            <label for="deactive">Deactivate Account:</label>
-            <div>
-              <input id="d_true" type="radio" value="true" name="deactive" formControlName="deactive">
-              <label for="d_true">True</label>
-           </div>
+<div *ngIf="admin==false">
+   <h1>You are not an Administrator! You do not have access to this route.</h1>
+   </div>
+   
+<div *ngIf="admin==true">
+   <div id="editUserForm">
+      <h2 id="editTitle">Edit User Privileges</h2>
+      <form [formGroup]="userForm" (ngSubmit)="submitEditedUser()">
   
-           <div>
-              <input id="d_false" type="radio" value="false" name="deactive" formControlName="deactive">
-              <label for="d_false">False</label>
-           </div>
-           
-           <br><br>
+          <div class="form-group">
+              <label for="admin">Admin:</label>
+              <div>
+                <input id="true" type="radio" value="true" name="admin" formControlName="admin">
+                <label for="true">True</label>
+             </div>
+             
+             <div>
+                <input id="false" type="radio" value="false" name="admin" formControlName="admin">
+                <label for="false">False</label>
+             </div>
+  
+              <br><br>
+  
+              <label for="deactive">Deactivate Account:</label>
+              <div>
+                <input id="d_true" type="radio" value="true" name="deactive" formControlName="deactive">
+                <label for="d_true">True</label>
+             </div>
+    
+             <div>
+                <input id="d_false" type="radio" value="false" name="deactive" formControlName="deactive">
+                <label for="d_false">False</label>
+             </div>
+             
+             <br><br>
+  
+          </div>
+  
+        <button type="submit" id="submitEditedUser">Submit Edited User Privileges</button><br><br>
+      </form>
+    </div>
+</div>
 
-        </div>
-
-      <button type="submit" id="submitEditedUser">Submit Edited User Privileges</button><br><br>
-    </form>
-  </div>

@@ -10,8 +10,7 @@ const ReviewSchema = new mongoose.Schema({
     max: 255
     },
     rating:{
-        type: Number,
-        max: 6
+        type: String,
     },
     
     courseId: {
@@ -23,8 +22,13 @@ const ReviewSchema = new mongoose.Schema({
         type:Boolean
     },
 
-    createdBy:{type:String}
-    
+    createdBy:{type:String},
+
+    infringing:{
+        type:Boolean,
+        default:false
+    }
+
 })
 
 ReviewSchema.set('timestamps', true);

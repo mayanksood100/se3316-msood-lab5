@@ -24,7 +24,9 @@ export class CoursesComponent implements OnInit {
   courseComponent: string;
   keyword:string;
   loginCheck:boolean;
-
+  keywords:[];
+  keyword2:string;
+  key:boolean=false;
   constructor(private courseService: CoursesService, private router: Router, private authService:AuthService) { }
 
   ngOnInit(): void {
@@ -51,6 +53,15 @@ export class CoursesComponent implements OnInit {
       this.allReviews=reviews;
       console.log(reviews);
       console.log(this.allReviews);
+    })
+  }
+
+  getKeywords(){
+    this.courseService.getKeywords(this.keyword2).subscribe(keywords=>{
+      this.keywords = keywords;
+      console.log(this.keywords)
+      this.key=true;
+      this.courses=[];
     })
   }
 

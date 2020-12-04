@@ -17,8 +17,8 @@
     <input type="text" id="subjectSearch" [(ngModel)]="subject" placeholder="Search By Subject" name="subjectSearch"><br><br>
     <label for="courseNumberSearch">Search by Course Number:</label>
     <input type="text" id="courseNumberSearch" [(ngModel)]="courseNumber" placeholder="Search By CourseNumber" name="courseNumberSearch"><br><br>
-    <label for="keywordSearch">Search by Keyword:</label>
-    <input type="text" id="keywordSearch"  placeholder="Search By Keyword" name="keywordSearch" [(ngModel)]="keyword"><br><br>
+    <label for="keywordSearch">Search by Class Name:</label>
+    <input type="text" id="keywordSearch"  placeholder="Search By Class Name" name="keywordSearch" [(ngModel)]="keyword"><br><br>
     <label for="courseComponent" id="componentLabel">Search by Course Component:</label>
     <select placeholder="Select Component" name="courseComponent" id="courseComponent" [(ngModel)]="courseComponent">
         <option value="ALL">ALL</option>
@@ -26,7 +26,10 @@
         <option value="TUT">Tutorial</option>
         <option value="LAB">Laborotory</option>
     </select>
-   
+    <br><br>
+    <label for="keywordSearch2" id="label2">Search by Keyword:</label>
+    <input type="text" id="keywordSearch2"  placeholder="Search By Keyword" name="keywordSearch2" [(ngModel)] = "keyword2" >
+    <button (click)="getKeywords()" id="keyButton">Search By Keyword</button>
 </div>
 <hr>
 
@@ -40,9 +43,44 @@
             <p>Rating: {{review.rating}} Stars</p>
             <p>Comments: {{review.comment}} </p>
             <p>Submitted By: {{review.createdBy}} on {{review.createdAt}}</p>
+            <hr>
         </div>
      
     </div>
+</div>
+
+
+<div *ngFor="let k of keywords">
+    <h3>{{k.subject}} {{k.catalog_nbr}} - {{k.className}}</h3>
+    <p><b>Description:</b>{{k.catalog_description}}</p>
+    <table>
+        <thead >
+            <tr >
+                <th>Section</th>
+                <th>Component</th>
+                <th>Class Number</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Location</th>
+                <th>Requisites and Constraints</th>
+                <th>Status</th>
+                <th>Campus</th>
+            </tr>
+        </thead>
+        <tbody >
+            <tr >
+                <td>{{k.course_info[0].class_section}}</td>
+                <td>{{k.course_info[0].ssr_component}}</td>
+                <td>{{k.course_info[0].class_nbr}}</td>
+                <td>{{k.course_info[0].start_time}}</td>
+                <td>{{k.course_info[0].end_time}}</td>
+                <td>{{k.course_info[0].facility_ID}}</td>
+                <td>{{k.course_info[0].descr}}</td>
+                <td>{{k.course_info[0].enrl_stat}}</td>
+                <td>{{k.course_info[0].campus}}</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 
