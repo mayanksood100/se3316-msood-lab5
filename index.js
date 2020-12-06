@@ -9,7 +9,8 @@ const fs = require("fs");
 const router = express.Router();
 router.use(express.json());
 const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/authentication");
+const MONGODB_URI = "mongodb+srv://mayanksood100:MongoDB123@cluster0.azs7o.mongodb.net/<dbname>?retryWrites=true&w=majority"
+mongoose.connect(MONGODB_URI|| "mongodb://localhost/authentication");
 mongoose.Promise = global.Promise;
 var randomCode = require("randomstring");
 const bcrypt = require('bcrypt');
