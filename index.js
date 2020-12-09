@@ -705,7 +705,7 @@ let transporter = nodemailer.createTransport({
 });
 
 function sendConfirm(clientEmail, clientName, host){
-    verificationLink = "https://"+host+"/api/verify/"+authenticationCode;
+    verificationLink = "http://"+host+"/api/verify/"+authenticationCode;
 
     let mailOptions = { 
         from: 'westerntimetableapp@gmail.com', 
