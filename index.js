@@ -212,7 +212,6 @@ router.post('/register', (req,res,next)=>{
 
 //Setting up POST route to allow for a User to LogIn
 router.post('/login', (req,res,next)=>{
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
     const email = req.body.email;
     const password = req.body.password;
     User.findOne({email: email}, function(err, foundUser){
@@ -706,7 +705,7 @@ let transporter = nodemailer.createTransport({
 });
 
 function sendConfirm(clientEmail, clientName, host){
-    verificationLink = "http://"+host+"/api/verify/"+authenticationCode;
+    verificationLink = "https://"+host+"/api/verify/"+authenticationCode;
 
     let mailOptions = { 
         from: 'westerntimetableapp@gmail.com', 
